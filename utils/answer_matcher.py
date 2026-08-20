@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import re
 
+from utils.structured_answer import compare_structured
+
 # unicode 常量归一化
 _UNICODE_REPLACEMENTS = [
     ("−", "-"), ("–", "-"), ("—", "-"), ("×", "*"), ("·", "*"), ("⋅", "*"),
@@ -272,6 +274,15 @@ def match_computation(a1: str, a2: str, tolerance: float = 1e-6):
         return False, 0.8, f"数值差异过大 {diff:.2e}", "numeric"
     except Exception:
         pass
+
+    # 结构化多字段比较（多问答案逐字段等价）
+    applicable, s_verdict, s_cov, s_matched, s_mismatched = compare_structured(
+        a1, a2, sympy_equivalent, tolerance)
+    if applicable:
+        if s_verdict is True:
+            return True, 0.96, f"多字段等价（覆盖 {len(s_matched)}/{max(len(s_matched)+len(s_mismatched),1)}）", "structured_symbolic"
+        if s_verdict is False:
+            return False, 0.85, f"多字段存在不等价（{len(s_mismatched)} 个字段不匹配）", "structured_symbolic"
 
     # 符号等价
     eq = sympy_equivalent(a1, a2, tolerance)
