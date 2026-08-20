@@ -30,6 +30,8 @@ CONFIG = {
         "objective_reasoning": 4096,
         "reasoning": 12288,         # 默认值，实际按难度分级覆盖
         "python": 8192,
+        "reasoning_compressed": 12288,  # 压缩重试（prefill 抑制 CoT）
+        "python_compressed": 8192,      # 代回核验/复算裁决的代码生成
         "reconciliation": 16384,
         "semantic_arbiter": 256,
         "coordinator": 16384,
