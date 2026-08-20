@@ -90,12 +90,14 @@ class MathAgentGraph:
         self.skills_loader = skills_loader
         self.python_executor = python_executor
 
-    def run(self, initial_state, time_budget=None):
+    def run(self, initial_state, time_budget=None, paper_cap=None):
         from utils.deps import Deps
         from utils.logger import get_logger
         from utils.time_budget import TimeBudget
 
         clock = time_budget or TimeBudget()
+        if paper_cap is not None:
+            clock.apply_paper_cap(paper_cap)
         deps = Deps(
             client=self.client, skills_loader=self.skills_loader,
             python_executor=self.python_executor, time_budget=clock,

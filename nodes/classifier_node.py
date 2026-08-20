@@ -91,6 +91,10 @@ def classifier_node(state: dict, config) -> dict:
     except Exception:  # noqa: BLE001 - 分类失败用默认值，不阻塞
         pass
 
+    # 按难度收紧软预算（可选阶段的购买力，不杀进行中调用）
+    if deps.time_budget is not None:
+        deps.time_budget.apply_difficulty_profile(difficulty)
+
     return {
         "question_mode": question_mode,
         "category": category,

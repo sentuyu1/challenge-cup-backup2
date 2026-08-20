@@ -26,12 +26,12 @@ class ReasoningAgent:
         self.graph = MathAgentGraph(client=client, skills_loader=self.skills_loader)
         self.logger.info("ReasoningAgent 初始化完成")
 
-    def solve(self, problem: str, metadata: dict) -> dict:
+    def solve(self, problem: str, metadata: dict, paper_cap=None) -> dict:
         meta = metadata if isinstance(metadata, dict) else {}
         idx = meta.get("idx", -1)
         try:
             initial = create_initial_state(str(problem or ""), meta)
-            final_state = self.graph.run(initial)
+            final_state = self.graph.run(initial, paper_cap=paper_cap)
             return {
                 "final_response": final_state.get("final_response", "无法生成答案"),
                 "trace": self._build_trace(final_state),
