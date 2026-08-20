@@ -77,7 +77,9 @@ def build_math_agent_graph():
             "solving": "solving",
         })
 
-    g.add_conditional_edges("semantic_arbiter", lambda s, c: "coordinator", {
+    def _route_from_arbiter(state, config):
+        return "coordinator"
+    g.add_conditional_edges("semantic_arbiter", _route_from_arbiter, {
         "coordinator": "coordinator"})
     g.add_edge("coordinator", END)
     return g.compile()
