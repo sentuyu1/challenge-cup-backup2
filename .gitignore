@@ -1,0 +1,14 @@
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 日志
+logs/
+
+# 本地输出
+out/
+*.json.tmp
+
+# 环境
+.env
