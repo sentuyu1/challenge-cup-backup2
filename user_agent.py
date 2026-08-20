@@ -24,14 +24,15 @@ class ReasoningAgent:
         self.logger = get_logger("ReasoningAgent")
         self.skills_loader = SkillsLoader()
         self.graph = MathAgentGraph(client=client, skills_loader=self.skills_loader)
+        self.paper_cap = None  # PaperPacer 全卷预算帽（本地批处理用，平台评测为 None）
         self.logger.info("ReasoningAgent 初始化完成")
 
-    def solve(self, problem: str, metadata: dict, paper_cap=None) -> dict:
+    def solve(self, problem: str, metadata: dict) -> dict:
         meta = metadata if isinstance(metadata, dict) else {}
         idx = meta.get("idx", -1)
         try:
             initial = create_initial_state(str(problem or ""), meta)
-            final_state = self.graph.run(initial, paper_cap=paper_cap)
+            final_state = self.graph.run(initial, paper_cap=self.paper_cap)
             return {
                 "final_response": final_state.get("final_response", "无法生成答案"),
                 "trace": self._build_trace(final_state),

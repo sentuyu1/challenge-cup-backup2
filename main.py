@@ -72,7 +72,8 @@ def solve_item(agent: ReasoningAgent, item: Dict, pacer: PaperPacer) -> Dict:
         if key in item:
             metadata[key] = item[key]
     cap = pacer.next_cap()
-    result = agent.solve(problem=item["problem"], metadata=metadata, paper_cap=cap)
+    agent.paper_cap = cap
+    result = agent.solve(problem=item["problem"], metadata=metadata)
     pacer.record()
     final_response = result.get("final_response", "")
     if not isinstance(final_response, str) or not final_response.strip():
