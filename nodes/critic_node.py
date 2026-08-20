@@ -97,6 +97,14 @@ def critic_node(state: dict, config) -> dict:
     if conflict and verdict == "pass":
         verdict = "calc_error"
 
+    # 确定性契约检查（多问漏答/置信区间/假设检验/枚举，零成本）
+    from utils.answer_contract import missing_components
+    deterministic_missing = missing_components(
+        str(state.get("problem", "")), answer)
+    if deterministic_missing and verdict == "pass":
+        verdict = "incomplete"
+        llm_verdict["missing"] = list(deterministic_missing)
+
     if verdict == "pass":
         return {"critic_status": "pass", "critic_trace": trace,
                 "next_node": "coordinator"}
