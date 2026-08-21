@@ -44,10 +44,13 @@ def build_math_agent_graph():
         status = state.get("validation_status", "")
         mode = state.get("question_mode", "computation")
         if status == "match":
-            # 中/难计算题：匹配成功后再做一次代回核验（戳穿同源同错）
+            # 风险驱动：高风险题（证明/构造/多目标/迭代）即使两路一致也做代回核验
+            from utils.problem_spec import build_problem_spec
+            spec = build_problem_spec(state.get("problem", ""))
+            high_risk = spec.risk_score >= 3
             if (CONFIG.get("enable_substitution_check", True)
                     and mode == "computation"
-                    and state.get("difficulty", "medium") in ("medium", "hard")):
+                    and (high_risk or state.get("difficulty", "medium") in ("medium", "hard"))):
                 return "substitute"
             return "critic"
         if status == "mismatch":
