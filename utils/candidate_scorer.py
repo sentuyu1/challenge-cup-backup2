@@ -34,24 +34,28 @@ def assess_answer(answer: str, problem: str, question_mode: str) -> dict:
         return {"answer": value, "score": -50, "complete": False, "shape_valid": False,
                 "format_valid": False, "reasons": ["空/占位/噪声"]}
 
-    # 2. 格式合法（无残片/不完整）
-    format_valid = not (looks_like_latex_fragment(value) or looks_incomplete_answer(value))
+    # 2. 格式合法（20 种结构校验：残片/未闭合/控制字符/markup/元叙述）
+    from utils.answer_cleanliness import validate_structure
+    structure_reasons = validate_structure(value)
+    format_valid = not structure_reasons
     if format_valid:
         score += 4
     else:
         score -= 12
-        reasons.append("格式非法")
+        reasons.extend(structure_reasons)
 
-    # 3. 完整性（覆盖必须术语 + 契约）
-    req_terms = required_terms(problem)
-    missing_terms = missing_required_terms(value, req_terms)
+    # 3. 完整性（覆盖必须术语 + 可判分要求 + 契约）
+    from utils.problem_spec import build_problem_spec
+    spec = build_problem_spec(problem)
+    missing_terms = missing_required_terms(value, spec.required_terms)
+    missing_reqs = [r.name for r in spec.requirements if r.strict and not r.matches(value)]
     missing_comp = missing_components(problem, value)
-    complete = not missing_terms and not missing_comp
+    complete = not missing_terms and not missing_reqs and not missing_comp
     if complete:
         score += 8
     else:
         score -= 8
-        reasons.extend(f"缺:{t}" for t in missing_terms + missing_comp)
+        reasons.extend(f"缺:{t}" for t in missing_terms + missing_reqs + missing_comp)
 
     # 4. 形状合法（判断/填空/选择题的答案形状）
     shape_valid = True

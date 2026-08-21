@@ -123,3 +123,61 @@ def clean_answer(text: str) -> str:
             or looks_like_latex_fragment(t) or looks_incomplete_answer(t):
         return ""
     return t
+
+
+def validate_structure(answer: str) -> list:
+    """综合结构校验（借鉴折叠桌 Finalizer，检测多种污染）。
+
+    返回问题列表（空 = 结构合法）。
+    """
+    value = (answer or "").strip()
+    reasons = []
+    if not value:
+        return ["empty"]
+    if is_placeholder_answer(value):
+        reasons.append("placeholder")
+    # 未闭合代码块
+    if value.count("```") % 2:
+        reasons.append("unclosed_code_fence")
+    # 未闭合内联数学
+    if value.count("$") % 2:
+        reasons.append("unclosed_inline_math")
+    if value.count(r"\(") != value.count(r"\)"):
+        reasons.append("unclosed_inline_latex")
+    if value.count(r"\[") != value.count(r"\]"):
+        reasons.append("unclosed_display_latex")
+    # 未闭合 LaTeX 环境
+    for env in re.findall(r"\\begin\{([^}]+)\}", value):
+        if len(re.findall(rf"\\end\{{{re.escape(env)}\}}", value)) < len(
+                re.findall(rf"\\begin\{{{re.escape(env)}\}}", value)):
+            reasons.append("unclosed_latex_environment")
+            break
+    # 未闭合花括号（转义感知）
+    depth, escaped = 0, False
+    for ch in value:
+        if ch == "\\" and not escaped:
+            escaped = True
+            continue
+        if ch == "{" and not escaped:
+            depth += 1
+        elif ch == "}" and not escaped:
+            depth -= 1
+            if depth < 0:
+                reasons.append("unclosed_latex_brace")
+                break
+        escaped = False
+    if depth != 0 and "unclosed_latex_brace" not in reasons:
+        reasons.append("unclosed_latex_brace")
+    # HTML/markup 碎片
+    if re.search(r"</?[A-Za-z][A-Za-z0-9_-]*(?:\s+[^<>]*)?>", value):
+        reasons.append("markup_fragment")
+    # 控制字符
+    if re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", value):
+        reasons.append("control_character")
+    # 元叙述文本
+    if re.search(r"\b(?:this|that) (?:looks|seems) like\b|\bthe (?:prompt|instruction|user|task)\b|让我(?:验证|确认|组织)|我(?:需要|应该)|提示词", value, re.IGNORECASE):
+        reasons.append("meta_text")
+    # 无意义碎片（只有标点/空白）
+    if not re.search(r"[\w\u4e00-\u9fff=+\-*/^\\]", value):
+        reasons.append("meaningless_fragment")
+    return reasons
