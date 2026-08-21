@@ -1,17 +1,12 @@
----
-name: topology-problem-solving
-description: 系统求解与核验点集拓扑和初等代数拓扑问题，包括拓扑公理、内部闭包边界导集、稠密性、连续映射、子空间乘积与商拓扑、紧致性、连通性、分离与可数性公理、基本群、覆盖空间、Euler示性数及同调群。用于识别空间结构、选择定义或定理、组织拓扑证明并检查结论成立所需条件。
----
-
 # 拓扑学解题技能
 
 ## 领域边界与路由约定
 
 - 适用范围：拓扑公理、内部/闭包/边界、连续映射、积与商拓扑、紧致/连通、分离公理和基本群。
 - 不接管：只用实数度量定义证明 Cauchy/极限转数学分析；曲率、测地线和基本形式转微分几何。
-- 验证契约：每个结论标注空间、子空间拓扑和所用分离/紧致假设，不能把欧氏空间结论无条件推广。
+- 验证原则：每个结论标注空间、子空间拓扑和所用分离/紧致假设，不能把欧氏空间结论无条件推广。
 
-## 高频错误与口径约定（评委反馈 2026-07-07）
+## 易错点与口径约定
 
 - **一点并（wedge）与覆盖空间**：$\pi_1(S^1\vee S^1)\cong \mathbb{Z}*\mathbb{Z}=F_2$（秩 2 自由群）；其**万有（普遍）覆盖空间是无限 4-正则树**——即 $F_2$ 的 Cayley 图，每个顶点恰发出 4 条边（对应 $a,a^{-1},b,b^{-1}$）。一般地 $\pi_1(\vee_{i=1}^{n}S^1)\cong F_n$，万有覆盖为无限 $2n$-正则树。
 - **问什么答什么、全部作答**：题目同时问"求 $\pi_1$，并描述其普遍覆盖空间的图结构"时，最终答案必须两问齐备（基本群 + 覆盖空间的具体图描述），只答基本群按未完成计。
@@ -302,32 +297,3 @@ description: 系统求解与核验点集拓扑和初等代数拓扑问题，包�
 4. 对同胚结论比较紧致性、连通性、基本群和同调等不变量。
 5. 对有限空间可穷举全部子集或映射；对覆盖图检查局部度数与无环性。
 6. 对同调答案用 Euler–Poincaré 公式复核自由秩。
-
-## 模块速查：拓扑学：实数集紧集的判定
-- 检索词：覆盖 cover covering 子集 subset subsets 紧集 compact open 紧性 compactness 区间 interval 实数
-- 核心内容：实数（欧氏空间）中子集的紧性与「闭集且有界」等价（Heine–Borel 定理），同时等价于一般拓扑中「任意开覆盖都有有限子覆盖」的定义。仅闭而无界（如无界闭区间）或仅有界而非闭（如有界开区间）均不足以保证紧性；有界开区间可用无有限子覆盖的特定开覆盖作为反例。
-- 解题路线：选择题常把「闭」「开」「有界」组合排列并要求逐一判断；对每个选项或引定理、或给反例；注意「开覆盖有有限子覆盖」本身就是紧集的等价定义。
-- 易错点：漏掉有界性把闭集误当紧集；忽视开覆盖定义与 Heine–Borel 定理的一致性；反例选取不当（选到闭且有界的集合）。
-
-## 模块速查：拓扑学：基本群与同伦
-- 检索词：基本群 fundamental group 同伦 homotopy 同伦等价 homotopy equivalent 环路 loop 基点 basepoint 万有覆盖 universal cover 单连通 simply connected van Kampen Seifert-van Kampen 自由群 free group 一点并 wedge 可缩 contractible
-- 核心内容：基本群 $\pi_1(X,x_0)$ 是「以 $x_0$ 为基点的环路」的同伦类（相对端点）全体，乘法为环路拼接；道路连通空间中基点选取不影响同构类型（记 $\pi_1(X)$）。同伦等价：存在 $f:X\to Y,\ g:Y\to X$ 使 $g\circ f\simeq\mathrm{id}_X$、$f\circ g\simeq\mathrm{id}_Y$，则 $\pi_1(X)\cong\pi_1(Y)$；同胚⟹同伦等价（反之不成立）。可缩空间 $\pi_1=0$：$\mathbb R^n$、凸集、$D^n$。基本结果：$\pi_1(S^1)\cong\mathbb Z$；$\pi_1(S^n)=0$（$n\ge2$）；$\pi_1(X\times Y)\cong\pi_1(X)\times\pi_1(Y)$；$\pi_1(\vee_{i=1}^n S^1)\cong F_n$（秩 $n$ 自由群）。Seifert–van Kampen 定理：$X=U\cup V$（$U,V$ 开、道路连通、$U\cap V$ 道路连通），则 $\pi_1(X)\cong\pi_1(U)*_{\pi_1(U\cap V)}\pi_1(V)$（并合自由积：自由积再模掉 $U\cap V$ 中元素两边像相等的额外关系）。
-- 解题路线：① 把空间分解为已知基本群的简单块（圆、可缩集、乘积、一点并）；② 用乘积公式或 van Kampen 定理拼出基本群（写清生成元与关系）；③ 判断同伦等价用同伦不变量（基本群、Euler 示性数、同调）；④ 证单连通给出收缩或说明 $\pi_1$ 平凡。
-- 易错点：基本群一般非交换（如 $F_2$），别写成 $\mathbb Z\times\mathbb Z$；van Kampen 要求 $U\cap V$ 道路连通（否则需群胚版本）；同伦等价不要求同胚（$S^1$ 与 $\mathbb R^2\setminus\{0\}$ 同伦等价但非同胚，后者非紧）；$\pi_1$「与基点无关」只对道路连通空间成立。
-- 分步收尾：求环面 $T^2=S^1\times S^1$ 的基本群。由乘积公式 $\pi_1(T^2)=\pi_1(S^1)\times\pi_1(S^1)\cong\mathbb Z\times\mathbb Z$（自由交换秩 2）。或用 van Kampen：$T^2$ 由单个 2-胞腔粘到 $S^1\vee S^1$ 上，生成元 $a,b$，粘合映射给关系 $aba^{-1}b^{-1}=1$，故 $\pi_1(T^2)=\langle a,b\mid aba^{-1}b^{-1}=1\rangle\cong\mathbb Z^2$。两法一致。
-
-## 模块速查：拓扑学：紧致性与连通性
-- 检索词：紧致 compact compactness 开覆盖 open cover 有限子覆盖 finite subcover Heine-Borel 闭有界 closed bounded 连通 connected 道路连通 path-connected 分离公理 separation axiom Hausdorff Tychonoff 连续像 continuous image 同胚 homeomorphism
-- 核心内容：紧致：任意开覆盖有有限子覆盖；连续像保持紧致与连通。Heine–Borel：$\mathbb R^n$ 中子集紧 ⟺ 闭且有界（仅欧氏空间可用）。紧致空间性质：紧致空间在连续映射下像紧；Hausdorff 空间中紧致子集闭；紧致 Hausdorff 空间中闭子集紧；紧致空间到 Hausdorff 空间的连续双射是同胚。Tychonoff 定理：任意一族紧致空间的乘积（积拓扑）紧致（等价于选择公理）。连通：不能写成两个不交非空开集之并；$\mathbb R$ 的连通子集恰为区间；连通的连续像连通。道路连通⟹连通（反之不成立：拓扑学家正弦曲线连通但非道路连通）。分离公理：$T_2$（Hausdorff）任意两点有不相交开邻域；$T_2\Rightarrow T_1$（单点集闭）。
-- 解题路线：① 判紧致优先 Heine–Borel（仅欧氏空间），否则回到开覆盖定义或连续像/乘积/Tychonoff；② 判连通尝试构造分离，或在 $\mathbb R$ 中用「连通⟺区间」；③ 证紧⟹闭需 Hausdorff 条件；④ 用「紧致-Hausdorff 连续双射⟹同胚」升级连续双射。
-- 易错点：「闭且有界⟹紧」只在 $\mathbb R^n$（及其欧氏子空间）成立，一般度量/拓扑空间不成立；紧致子集闭需环境空间 Hausdorff；连通与道路连通不等价（道路连通⟹连通）；Tychonoff 是「任意多个」紧空间的积紧，无限积需要它（依赖选择公理）；连续像紧/连通，但开集/闭集的连续像不一定开/闭。
-- 分步收尾：$\mathbb R$ 中 $[0,1]$ 闭且有界，由 Heine–Borel 紧；是区间故连通。反例说明 Heine–Borel 不能无条件外推：$[0,1]\cap\mathbb Q$ 是 $\mathbb Q$ 的闭（相对）有界子集但非紧——取开覆盖 $\{(q-\tfrac1{2^n},q+\tfrac1{2^n})\cap\mathbb Q:n\in\mathbb N\}$（$q$ 为 $[0,1]\cap\mathbb Q$ 中的无理数逼近点）无有限子覆盖，因为 $\mathbb Q$ 不完备。故一般空间中须回到开覆盖定义。
-
-## 模块速查：拓扑学：覆盖空间与不动点
-- 检索词：覆盖空间 covering space 提升定理 lifting theorem 路径提升 path lifting 同伦提升 homotopy lifting 万有覆盖 universal cover 单连通 simply connected Brouwer 不动点 fixed point 圆盘 disk 球面 sphere 纤维 fiber 覆盖次数 sheet deck 变换 deck transformation
-- 核心内容：覆盖空间：连续满射 $p:\tilde X\to X$，每点 $x\in X$ 有开邻域 $U$ 使 $p^{-1}(U)$ 为 $\tilde X$ 中不相交开集之并且每个都同胚映到 $U$；纤维 $p^{-1}(x)$ 基数 = 覆盖次数。万有覆盖：单连通的覆盖空间（同构意义下唯一）。路径提升定理：$p:\tilde X\to X$ 覆盖，$\gamma:[0,1]\to X$ 以 $x_0$ 为起点，$\tilde x_0\in p^{-1}(x_0)$，则存在唯一提升 $\tilde\gamma$ 以 $\tilde x_0$ 为起点。同伦提升定理：$X$ 中同伦可提升到 $\tilde X$。覆盖次数与基本群：$\tilde X$ 道路连通时 $[\,\pi_1(X):p_*(\pi_1(\tilde X))\,]$ = 覆盖次数。Brouwer 不动点定理：连续 $f:D^n\to D^n$ 必有不动点 $f(x)=x$；推论 $n$ 偶时 $S^n$ 上连续自映射恒有不动点；$n=1$ 即介值定理。万有覆盖存在需局部道路连通 + 半局部单连通。
-- 解题路线：① 求万有覆盖：$\mathbb R\to S^1$（$t\mapsto e^{2\pi it}$）覆盖 $S^1$，故 $S^1$ 的万有覆盖是 $\mathbb R$；$T^n$ 的万有覆盖是 $\mathbb R^n$；$S^n$（$n\ge2$）单连通故自覆盖；② 计算 $\pi_1$ 用覆盖纤维计数或 deck 变换群；③ 证不动点：反证无不动点则构造 $D^n\to S^{n-1}$ 的收缩（矛盾），或用 $\pi_1(S^1)\neq0$ 而 $\pi_1(D^2)=0$ 排除收缩存在。
-- 易错点：覆盖是「局部同胚 + 均匀覆盖」，仅局部同胚不一定是覆盖；Brouwer 定理在无穷维不成立（需 $D^n$ 有限维）；不动点定理只给存在性不给唯一性（压缩映射才唯一）；万有覆盖存在有前提（局部道路连通 + 半局部单连通），如「夏威夷耳环」无万有覆盖；deck 变换群与 $\pi_1$ 的对应需 $\tilde X$ 单连通。
-- 分步收尾：用覆盖求 $\pi_1(S^1)$ 并用 Brouwer 证 $D^2$ 不动点。覆盖 $p:\mathbb R\to S^1,\ t\mapsto e^{2\pi it}$，纤维 $\mathbb Z$，$\mathbb R$ 单连通故为万有覆盖，deck 变换群 = 整数平移 $\mathbb Z$，故 $\pi_1(S^1)\cong\mathbb Z$。Brouwer 用于 $D^2$：若 $f:D^2\to D^2$ 无不动点，由 $x$ 沿 $f(x)$ 方向射线与 $S^1=\partial D^2$ 的交点定义收缩 $r:D^2\to S^1$（$r|_{S^1}=\mathrm{id}$），诱导 $\pi_1(S^1)\to\pi_1(D^2)$ 含恒等，但 $\pi_1(D^2)=0$、$\pi_1(S^1)=\mathbb Z$，矛盾，故 $f$ 必有不动点。
-
-<!-- AUTO-KNOWLEDGE-END -->

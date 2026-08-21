@@ -1,21 +1,10 @@
----
-name: probability-theory-verification
-description: Use when verifying probability theory problems with sympy — classical probability, distributions, expectations, moment generating functions, characteristic functions, convergence theorems, and limit theorems
----
-
 # 概率论解题与验证技能手册
 
 ## 领域边界与路由约定
 
 - 适用范围：静态随机变量、分布函数、期望方差、条件概率、极限定理和变换。
 - 不接管：Markov/Poisson/Brownian 等随时间演化转随机过程；样本估计、检验和时间序列转统计推断。
-- 验证契约：明确事件域、独立性、分布参数和尾部方向，概率质量/密度归一化必须独立检查。
-
-## 概述
-
-本技能手册覆盖本科概率论课程的核心知识体系，包括古典概型与组合计数、随机变量与分布（离散和连续）、多维随机变量及其数字特征、矩母函数与特征函数、极限定理（大数定律与中心极限定理）、以及常见不等式。全手册以20道精选习题为骨架，系统梳理每个知识模块的核心概念、常用公式、解题步骤和常见陷阱，并配套验证知识提示，适用于概率论课程的学习、复习与自动解题验证。
-
----
+- 验证原则：明确事件域、独立性、分布参数和尾部方向，概率质量/密度归一化必须独立检查。
 
 ## 知识点体系
 
@@ -48,9 +37,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 混淆放回与不放回：放回用二项分布，不放回用超几何分布
 - 组合数计算错误：注意 $\binom{n}{k}$ 的分母是 $k!(n-k)!$，不是 $k!$ 或 $(n-k)!$
 - 未注意"恰好"与"至少"的区别
-
-
----
 
 ### 模块2：随机变量与分布
 
@@ -116,9 +102,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 连续型随机变量单点概率为零：$P(X=c)=0$
 - 对于 $X \sim U(0,1)$，$Y = -\ln X$ 服从 $\mathrm{Exp}(1)$ 是经典变换
 
-
----
-
 ### 模块3：多维随机变量
 
 #### 3.1 联合分布与边缘分布
@@ -132,7 +115,6 @@ description: Use when verifying probability theory problems with sympy — class
 #### 3.2 条件分布与条件期望
 
 - **条件密度**（连续型）：$f_{X\mid Y}(x\mid y) = \frac{f(x,y)}{f_Y(y)}$（当 $f_Y(y) > 0$）
-
 
 - **条件分布律**（离散型）：$P(X=x_i \mid Y=y_j) = \frac{P(X=x_i, Y=y_j)}{P(Y=y_j)}$
 
@@ -174,9 +156,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 条件密度只定义在 $f_Y(y) > 0$ 的区域
 - 条件期望是 $y$ 的函数，书写时不要漏掉变量
 - 协方差计算：$E[XY] - E[X]E[Y]$ 是最常用公式，不要直接用定义展开
-
-
----
 
 ### 模块4：数字特征
 
@@ -240,9 +219,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 特征函数反演积分的积分常数：前面有 $1/(2\pi)$
 - Gamma 分布的 MGF：注意参数化方式（rate $\beta$ vs scale $\theta$）
 
-
----
-
 ### 模块5：极限定理
 
 #### 5.1 收敛模式
@@ -297,9 +273,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 依概率收敛不保证依分布收敛的反向：$X_n \xrightarrow{D} X \not\Rightarrow X_n \xrightarrow{P} X$（除非 $X$ 是常数）
 - 区分各种收敛记号：$P$、$D$、$a.s.$ 不要混淆
 
-
----
-
 ### 模块6：不等式与性质
 
 #### 6.1 Markov 不等式
@@ -329,9 +302,6 @@ description: Use when verifying probability theory problems with sympy — class
 - Chebyshev 不等式给出的是上界，不一定紧
 - 方差公式 $\mathrm{Var}(aX+b) = a^2 \mathrm{Var}(X)$ 中不要忘记平方
 
-
----
-
 ### 模块7：贝叶斯公式与全概率
 
 #### 核心概念
@@ -355,9 +325,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 计算 $P(+ \mid \neg D)$ 时注意：假阳性率是 $P(+ \mid \neg D)$，不是 $P(\neg D \mid +)$
 - 全概率公式分母中不要遗漏任何划分
 
-
----
-
 ### 模块8：独立随机变量和的分布（卷积）
 
 #### 核心概念
@@ -379,9 +346,6 @@ description: Use when verifying probability theory problems with sympy — class
 - 积分上下限错误：未正确确定 $z$ 的分段
 - 漏掉 $z$ 在某些区间密度为 $0$ 的情况
 - 卷积积分的图形直观：$z$ 的范围是 $[a_X+b_X, a_Y+b_Y]$（$a,b$ 为分布支撑区间端点）
-
-
----
 
 ## 通用解题方法论
 
@@ -417,153 +381,7 @@ description: Use when verifying probability theory problems with sympy — class
 - **量纲检查**：方差是期望平方的量纲
 - **边界情况**：验证极端参数时结果是否合理
 - **对称性检查**：若 $X,Y$ 对称，则期望和方差应对称
-- **sympy 数值验证**：对计算题结果用独立方法验算
-
----
-
-## sympy 验证技巧
-
-本节给出可供 Python 生成阶段使用的 SymPy 核验思路；题面数据仍为唯一的样本和参数来源。
-
-### 积分验证
-
-对于连续型随机变量的期望、方差计算：
-
-```python
-import sympy as sp
-
-x = sp.Symbol('x', real=True)
-
-# 例：密度 f(x)=2x, x∈[0,1]
-f = 2*x
-EX = sp.integrate(x * f, (x, 0, 1))       # 期望
-EX2 = sp.integrate(x**2 * f, (x, 0, 1))   # 二阶矩
-VarX = sp.simplify(EX2 - EX**2)           # 方差
-
-# 验证结果：E[X]=2/3, Var(X)=1/18
-```
-
-对于二维联合分布的积分：
-
-```python
-x, y = sp.symbols('x y', real=True)
-
-# 例：f(x,y)=8xy, 0<x<y<1
-f_xy = 8*x*y
-EXY = sp.integrate(sp.integrate(x*y * f_xy, (y, x, 1)), (x, 0, 1))
-EX = sp.integrate(sp.integrate(x * f_xy, (y, x, 1)), (x, 0, 1))
-EY = sp.integrate(sp.integrate(y * f_xy, (y, x, 1)), (x, 0, 1))
-Cov = sp.simplify(EXY - EX*EY)
-```
-
-### 求和验证
-
-对于离散型随机变量：
-
-```python
-k = sp.Symbol('k', integer=True, nonnegative=True)
-
-# 例：二项分布 B(5, 1/3), P(X=2)
-n, p = 5, sp.Rational(1,3)
-prob = sp.binomial(n, 2) * p**2 * (1-p)**(n-2)
-# 结果：80/243
-```
-
-对于泊松分布：
-
-```python
-import sympy as sp
-
-lam = 3
-# P(X=2) = e^{-λ} λ²/2!
-p2 = sp.exp(-lam) * lam**2 / 2
-# P(X≥1) = 1 - e^{-λ}
-p_ge1 = 1 - sp.exp(-lam)
-```
-
-### 特征函数验证
-
-```python
-t = sp.Symbol('t', real=True)
-
-# 验证特征函数 φ(t) = 1/(1+t²) 对应 Laplace(0,1)
-# 通过 Fourier 反演验证：
-phi = 1/(1 + t**2)
-# sympy 的 inverse_fourier_transform 可用于验证
-```
-
-### 线性代数验证
-
-对于协方差矩阵和相关系数的计算：
-
-```python
-# 二维正态条件分布验证
-rho = sp.Rational(1,2)
-sigma_X, sigma_Y = 1, 2
-mu_X, mu_Y = 0, 0
-
-# E[Y|X=1] = μ_Y + ρ·(σ_Y/σ_X)·(1 - μ_X)
-EY_given_X1 = mu_Y + rho * (sigma_Y/sigma_X) * (1 - mu_X)
-# = 0 + (1/2)·(2/1)·1 = 1
-
-# Var(Y|X=1) = σ_Y²·(1 - ρ²)
-VarY_given_X1 = sigma_Y**2 * (1 - rho**2)
-# = 4·(1 - 1/4) = 3
-```
-
-### 数值近似验证
-
-对于复杂积分，可使用 sympy 的数值积分 `.evalf()` 快速验证：
-
-```python
-# 例：验证 P(Z>1) = 1/2 (两独立U(0,1)之和)
-z = sp.Symbol('z', real=True)
-# f_Z(z) = z (0<z<1), 2-z (1<z<2)
-p = sp.integrate(2 - z, (z, 1, 2))
-sp.simplify(p)  # 1/2
-```
-
-### 卷积验证
-
-```python
-# 两独立 U(0,1) 之和
-x, z = sp.symbols('x z', real=True)
-# f_Z(z) = ∫ f_X(x) f_Y(z-x) dx
-# f_X(x)=1 for x∈[0,1], f_Y(y)=1 for y∈[0,1]
-# 当 0<z<1: x∈[0,z]
-f1 = sp.integrate(1, (x, 0, z))          # = z
-# 当 1<z<2: x∈[z-1,1]
-f2 = sp.integrate(1, (x, z-1, 1))        # = 2-z
-```
-
----
-
-## 习题索引
-
-| 题型 | 难度 | 主题 | 关键知识点 | 核心公式/方法 | 验证方法 |
-|-----|------|------|------|-----------|-------------|---------|
-| 0 | 计算 | 简单 | 古典概型 | 超几何分布 | $P = \frac{C_5^2 C_3^1}{C_8^3} = \frac{15}{28}$ | 组合数直接计算 |
-| 1 | 计算 | 简单 | 期望与方差 | 连续密度积分 | $E[X]=\int x f(x)dx$, $\mathrm{Var}(X)=E[X^2]-(E[X])^2$ | sympy积分 |
-| 2 | 计算 | 简单 | 二项分布 | pmf公式 | $P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$ | 组合数+幂运算 |
-| 3 | 计算 | 中等 | 贝叶斯公式 | 全概率+后验概率 | $P(D\mid+)=\frac{P(+\mid D)P(D)}{P(+)}$ | 有理数运算 |
-| 4 | 计算 | 中等 | 二维连续分布 | 联合密度积分/协方差 | $E[XY]=\iint xy f(x,y)$, $\mathrm{Cov}=E[XY]-E[X]E[Y]$ | sympy二重积分 |
-| 5 | 计算 | 中等 | 相关系数 | 离散联合分布律 | $\rho = \frac{\mathrm{Cov}(X,Y)}{\sigma_X\sigma_Y}$ | 离散随机变量逐项计算 |
-| 6 | 计算 | 中等 | 随机变量函数的分布 | 分布函数法 | $F_Y(y)=P(-\ln X \le y) \Rightarrow Y\sim\mathrm{Exp}(1)$ | 变量变换+分布识别 |
-| 7 | 计算 | 中等 | 二维正态条件分布 | 条件期望/方差公式 | $E[Y\mid X=x]=\mu_Y+\rho\frac{\sigma_Y}{\sigma_X}(x-\mu_X)$ | 二维正态公式直接代入 |
-| 8 | 计算 | 中等 | 条件期望 | 条件密度求法 | $f_{X\mid Y}(x\mid y)=\frac{f(x,y)}{f_Y(y)}$ | 边缘密度+条件密度积分 |
-| 9 | 计算 | 中等 | 泊松分布 | pmf $e^{-\lambda}\lambda^k/k!$ | $P(X\ge 1)=1-P(X=0)$ | sympy求和/exp函数 |
-| 10 | 计算 | 中等 | 指数分布高阶矩 | Gamma积分 | $E[X^n]=n!/\lambda^n$ | sympy积分验证 |
-| 11 | 计算 | 中等 | 矩母函数 | MGF求导/分布识别 | $M(t)=(1-2t)^{-3}$, $E[X]=M'(0)$ | sympy求导+代入 |
-| 12 | 计算 | 困难 | 独立RV和的分布 | 卷积公式 | $f_Z(z)=\int f_X(x)f_Y(z-x)dx$ | sympy分段积分 |
-| 13 | 计算 | 困难 | 特征函数反演 | CF唯一性 | $\varphi(t)=1/(1+t^2) \Leftrightarrow f(x)=\frac{1}{2}e^{-|x|}$ | CF对照表+反演积分 |
-| 14 | 证明 | 简单 | 方差的性质 | 线性变换 | $\mathrm{Var}(aX+b)=a^2\mathrm{Var}(X)$ | 代数展开验证 |
-| 15 | 证明 | 中等 | Markov不等式 | 指示函数技巧 | $P(X\ge\varepsilon)\le E[X]/\varepsilon$ | 不等式逻辑推导 |
-| 16 | 证明 | 中等 | 泊松可加性 | CF法/卷积法 | $\varphi_{X+Y}=\exp((\lambda_1+\lambda_2)(e^{it}-1))$ | CF乘积+唯一性 |
-| 17 | 证明 | 中等 | 指数无记忆性 | 条件概率+生存函数 | $\frac{P(X>s+t)}{P(X>s)} = e^{-\lambda t}$ | 代数化简 |
-| 18 | 证明 | 困难 | 依概率→依分布 | 双边不等式 | $F_X(x-\varepsilon)-\delta \le F_n(x) \le F_X(x+\varepsilon)+\delta$ | $\varepsilon$-$\delta$ 型逻辑 |
-| 19 | 证明 | 困难 | Slutsky定理 | 不等式+连续点选取 | $P(X_n\le x-\varepsilon)-o(1) \le P(X_n+Y_n\le x) \le P(X_n\le x+\varepsilon)+o(1)$ | 双极限论证 |
-
----
+- **独立验算**：对计算题结果用另一套数值或符号方法复核
 
 ## 常见错误与陷阱
 
@@ -603,8 +421,6 @@ f2 = sp.integrate(1, (x, z-1, 1))        # = 2-z
 21. **颠倒先验和后验**：所求的是 $P(\text{患病} \mid \text{阳性})$，不是 $P(\text{阳性} \mid \text{患病})$。前者是后验概率，后者是似然函数
 22. **遗漏全概率分母**：贝叶斯公式分母必须包含所有可能的路径（患病且阳性 + 未患病且阳性）
 
----
-
 ## 分布速查表
 
 ### 离散分布
@@ -626,9 +442,7 @@ f2 = sp.integrate(1, (x, z-1, 1))        # = 2-z
 | Gamma | $\mathrm{Gamma}(\alpha,\beta)$ | $\frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}$ | $\alpha/\beta$ | $\alpha/\beta^2$ | $(1-t/\beta)^{-\alpha}$ | $(1-it/\beta)^{-\alpha}$ |
 | Laplace | $\mathrm{Laplace}(\mu,b)$ | $\frac{1}{2b}e^{-|x-\mu|/b}$ | $\mu$ | $2b^2$ | $\frac{e^{\mu t}}{1-b^2 t^2}$ | $\frac{e^{i\mu t}}{1+b^2 t^2}$ |
 
----
-
-### 竞赛拓展：二项分布的正态近似与分位数反解
+### 二项分布的正态近似与分位数反解
 
 #### 核心概念
 
@@ -660,26 +474,17 @@ $$\frac{X - np}{\sqrt{np(1-p)}} \xrightarrow{D} N(0, 1)$$
 1. 验证正态近似适用条件：$np \ge 5$ 和 $n(1-p) \ge 5$。
 2. 计算均值和标准差：$\mu = np$，$\sigma = \sqrt{np(1-p)}$。
 3. 标准化：$Z = \frac{X - \mu}{\sigma} \approx N(0,1)$。
-4. 查标准正态分位数表或利用 sympy 的 `sp.Normal` 计算。
+4. 查标准正态分位数表或使用数值计算。
 5. 注意连续性校正的取整方向：求上侧概率时区间上界加 $0.5$，下界减 $0.5$；分位数反解时，最终样本量需向上取整。
 
-#### 应试解题技巧
-
-- 快速判断是否可以使用正态近似：心算 $np$ 和 $n(1-p)$ 是否均大于等于 $5$，任一不满足则改用精确二项计算。
-- 记牢常见分位数：$z_{0.025}=1.96$，$z_{0.05}=1.645$，$z_{0.005}=2.576$，考试中不必查表。
-- 分位数反解时先写出不等式，再移项解出 $n$，最后向上取整得到整数样本量。
-- 若题目给出的是比例形式（如 $\hat{p} = X/n$ 的分布），注意标准化时方差中使用的是 $p(1-p)/n$。
-
-#### 考试高频陷阱
+#### 高频陷阱
 
 - 忘记连续性校正导致近似精度下降，尤其在 $n$ 不够大时误差显著。
 - 混淆单尾和双尾的分位数：双尾 $\alpha$ 对应的临界值为 $z_{\alpha/2}$；单尾为 $z_{\alpha}$。如 $95\%$ 置信区间用 $z_{0.025} \approx 1.96$，而非 $z_{0.05} \approx 1.645$。
 - 取整方向错误：样本量 $n$ 必须为整数且向上取整（保守），若向下取整则实际置信水平可能不达标。
 - $n$ 不够大时正态近似不可靠，应改用 Clopper-Pearson 精确区间或 Poisson 近似（当 $p$ 很小且 $n$ 很大时）。
 
----
-
-### 竞赛拓展：算术-调和平均操作与分式线性变换
+### 算术-调和平均操作与分式线性变换
 
 #### 核心概念
 
@@ -708,72 +513,9 @@ $$f(z) = \frac{az + b}{cz + d}, \quad ad - bc \neq 0$$
    $$G(s) = \frac{p}{1 - (1-p)s} = \frac{ps + 0}{-(1-p)s + 1}$$
    这正是分式线性变换。灭绝概率 $\pi$ 满足 $\pi = G(\pi)$，解得 $\pi = \min(1, \frac{p}{1-p})$。
 
-#### 应试解题技巧
+#### 高频陷阱
 
-- 分式线性变换的不动点可通过解二次方程 $cz^2 + (d-a)z - b = 0$ 求得，考试中直接代入即可，无需从矩阵出发推导。
-- 均值不等式链 $H \le G \le A$ 可用于快速界定未知期望的范围。
-- 判断分支过程灭绝的快捷法：若 $E[X] = G'(1) \le 1$ 且 $P(X=1) < 1$，则灭绝概率为 $1$；若 $E[X] > 1$，灭绝概率由 $\pi = G(\pi)$ 的最小正根给出。
-- 记住 $G'(1) = E[X]$，$G''(1) = E[X(X-1)]$，可用于快速计算后代分布的均值与方差。
-
-#### 考试高频陷阱
-
-- 分式线性变换的矩阵表示不唯一：将所有系数同乘一个非零常数，变换不变，但矩阵不同。考试中勿纠结于矩阵的具体数值。
+- 分式线性变换的矩阵表示不唯一：将所有系数同乘一个非零常数，变换不变，但矩阵不同。计算中勿纠结于矩阵的具体数值。
 - 算术-调和平均迭代的收敛速度：虽然收敛到几何平均，但不是线性收敛，而是二次收敛（精度每次迭代大约翻倍）。
 - 灭绝概率 $\pi$ 是 $[0,1]$ 上方程 $\pi = G(\pi)$ 的**最小**非负根，而非任意根。当 $E[X] > 1$ 时，$G(s) = s$ 在 $[0,1)$ 内还有一根 $\pi < 1$。
 - 不要混淆分式线性变换的"不动点"（数学上的 $f(z)=z$ 的解）与 PGF 的"灭绝概率"——后者特指 $[0,1]$ 上的最小不动点，且需要 $f(0) > 0$（即 $P(X=0) > 0$）才可能小于 $1$。
-
----
-
-## 参考资源
-
-- 配套验证知识提示：`概率论验证示例.py`
-- 数据集来源：`概率论.md`（20题，涵盖全部核心知识点）
-- 推荐教材：《概率论与数理统计》（茆诗松、程依明、濮晓龙 编著）
-- 在线工具：Wolfram Alpha、sympy live
-
-<!-- AUTO-KNOWLEDGE-BEGIN 知识点速查（生成区；按学科提炼的抽象题型方法论，不含任何具体题目） -->
-
-以下速查条目是按学科整理的题型方法论（核心内容/解题路线/易错点），供匹配到的题目作方法参考；条目不含任何具体题目的题面或结论，最终答案仍须独立推导并验证。
-
-## 模块速查：概率论：二项分布的正态近似与分位数反解
-- 检索词：概率 probability 上界 upper bound 正态 normal Gaussian 分布 distribution 对称 symmetric symmetry 位数 digits length
-- 核心内容：大量独立同分布的二值选择之和服从二项分布；用中心极限定理作正态近似时，把「资源溢出」事件分解为两侧尾事件之并，利用分布对称性化为单侧尾概率；由允许的概率上界反查标准正态分位数，反解容量下限；最后用精确二项分布核算临界整数两侧是否满足条件。
-- 解题路线：题中常给出标准正态分布函数表，查表取分位点；「概率不超过某值」的容量答案要注意取整方向（向上取整）；双尾分解时充分利用对称性。
-- 易错点：漏掉其中一侧尾事件；忽视取整方向导致临界值差一；只做正态近似而不核查临界整数点的精确概率。
-
-## 模块速查：概率论：切比雪夫不等式、大数定律与中心极限定理
-- 检索词：不等式 inequality 切比雪夫 Chebyshev 马尔可夫 Markov 大数定律 law of large numbers 中心极限 central limit theorem 正态 normal Gaussian 样本均值 sample mean 依概率收敛 convergence in probability 依分布收敛 convergence in distribution
-- 核心内容：马尔可夫不等式 P(X≥a) ≤ E[X]/a（X 非负，a>0）。切比雪夫不等式 P(|X−E[X]|≥ε) ≤ Var(X)/ε²。弱大数定律：X₁,…,X_n 独立同分布、均值 μ 有限，则样本均值 X̄_n 依概率收敛到 μ（由切比雪夫：P(|X̄_n−μ|≥ε) ≤ σ²/(nε²)→0）。中心极限定理：独立同分布、均值 μ、方差 σ²∈(0,∞)，则 √n(X̄_n−μ)/σ 依分布收敛到 N(0,1)，即 P(X̄_n ≤ x) ≈ Φ((x−μ)/(σ/√n))。
-- 解题路线：求概率上界用切比雪夫（或更紧的马尔可夫）；问"样本均值趋于何值"用大数定律答 μ；问"概率近似/分位数"用 CLT 标准化查标准正态表；二项分布 B(n,p) 近似 N(np, np(1−p))，注意连续性校正 ±0.5。
-- 易错点：切比雪夫要求方差有限，马尔可夫要求非负；CLT 要求独立同分布且方差有限（柯西分布无方差不可用）；CLT 给的是近似值不是精确值；二项正态近似勿忘连续性校正；区分"依概率收敛"（大数定律）与"依分布收敛"（CLT）。
-- 分步收尾：X~B(100,0.5) 求 P(X≤55)：μ=np=50，σ=√(np(1−p))=5，带连续性校正标准化 (55+0.5−50)/5=1.1，P≈Φ(1.1)≈0.864。
-
-## 模块速查：概率论：鞅、条件期望与可选停时定理
-- 检索词：鞅 martingale 上鞅 submartingale 下鞅 supermartingale 条件期望 conditional expectation 停时 stopping time 可选停时 optional stopping 随机游走 random walk 鞅收敛 martingale convergence
-- 核心内容：鞅定义 E[X_{n+1}|F_n]=X_n（上鞅 ≤、下鞅 ≥）。条件期望三性质：塔性质 E[E[X|G]|H]=E[X|H]（H⊂G）、线性、可提取已知量 E[XY|G]=Y·E[X|G]（Y 为 G-可测）。可选停时定理：若 X_n 为鞅且停时 T 有界（或 X_{T∧n} 一致可积），则 E[X_T]=E[X_0]。Doob 鞅收敛定理：L¹ 有界鞅 a.s. 收敛。典型鞅：对称随机游走 S_n；X_n=S_n²−n；X_n=(q/p)^{S_n}（几何鞅，p≠q）。
-- 解题路线：证鞅：验证可积 + 适应性 + E[X_{n+1}|F_n]=X_n（把增量条件期望算成 0 或 X_n）；求 E[X_T] 用可选停时定理（先验证 T 有界或条件满足）；求首达概率/期望用停时 + 鞅构造（如对称随机游走 E[T]=ab 等）。
-- 易错点：可选停时要求 T 有界或一致可积，无界停时不能直接交换期望与停时；上鞅/下鞅方向记反（上鞅递减 E[X_{n+1}|F_n]≤X_n）；鞅收敛需 L¹ 有界条件。
-- 分步收尾：对称随机游走 S_n（每次 ±1 等概率）：E[S_{n+1}|F_n]=S_n+E[ξ_{n+1}]=S_n+0=S_n，故 S_n 是鞅，E[S_n]=E[S_0]；X_n=S_n²−n 亦为鞅（E[S_{n+1}²|F_n]=S_n²+1）。
-
-## 模块速查：概率论：大数定律与中心极限定理（研究生级）
-- 检索词：大数定律 law of large numbers LLN 强大数定律 strong law SLLN 弱大数定律 weak law WLLN 中心极限定理 central limit theorem CLT 特征函数 characteristic function Lindeberg Levy 依分布收敛 convergence in distribution 正态 normal Gaussian 样本均值 sample mean
-- 核心内容：① 弱大数定律（Khinchin）：$X_1,\dots,X_n$ i.i.d. 且 $E[X_1]=\mu$ 有限，则样本均值 $\bar X_n=\frac1n\sum_{i=1}^n X_i$ 依概率收敛到 $\mu$（若方差有限可由 Chebyshev 直接证 $P(|\bar X_n-\mu|\ge\varepsilon)\le \sigma^2/(n\varepsilon^2)\to0$）。② 强大数定律（Kolmogorov）：$X_1,X_2,\dots$ i.i.d. 且 $E|X_1|<\infty$，则 $\bar X_n \xrightarrow{a.s.} \mu=E[X_1]$；反之若 $\bar X_n$ a.s. 收敛到有限极限，则 $E|X_1|<\infty$。③ 中心极限定理（Lindeberg-Lévy）：$X_1,\dots,X_n$ i.i.d.，$E[X_1]=\mu$，$\mathrm{Var}(X_1)=\sigma^2\in(0,\infty)$，则 $\frac{\sqrt n(\bar X_n-\mu)}{\sigma}=\frac{\sum X_i-n\mu}{\sigma\sqrt n}\xrightarrow{d} N(0,1)$。④ 特征函数法（Lévy 连续性定理）：$X_n\xrightarrow{d}X$ 当且仅当 $\varphi_{X_n}(t)=E[e^{itX_n}]\to\varphi_X(t)$ 对所有 $t$（且极限 $\varphi$ 在 $0$ 连续）；证 CLT 时对标准化和取特征函数，用 $E[e^{itX}]=1+i\mu t-\frac12 E[X^2]t^2+o(t^2)$ 展开到二阶。⑤ 依分布收敛：$F_n(x)\to F(x)$ 对 $F$ 的一切连续点 $x$。
-- 解题路线：① 问"样本均值趋于何值"用大数定律答 $\mu$（依概率=弱大数定律，几乎必然=强大数定律，先验 $E|X|<\infty$ 或方差有限）；② 问"概率近似/分位数/区间"用 CLT 标准化 $\frac{\sqrt n(\bar X_n-\mu)}{\sigma}\to N(0,1)$ 查标准正态表；③ 要"证明极限分布"用特征函数法（Lévy 连续性定理）或矩母函数法；④ 二项 $B(n,p)$ 近似 $N(np,np(1-p))$，需 $np,n(1-p)$ 足够大并做连续性校正 $\pm0.5$。
-- 易错点：CLT 要求方差有限且非零（柯西分布无期望/方差，不适用）；大数定律给的是"均值收敛"，CLT 给的是"波动尺度的分布"，两者勿混；标准化分母是 $\sigma/\sqrt n$ 而非 $\sigma$；Lévy 连续性定理要求极限特征函数在 0 处连续，否则极限可能不是分布函数；二项正态近似漏连续性校正会损失精度。
-- 分步收尾：设 $X_1,\dots,X_{100}$ i.i.d. $\sim U(0,1)$，用 CLT 近似 $P(\bar X_{100}\le 0.52)$：$\mu=\frac12$，$\sigma^2=\mathrm{Var}(X)=\frac{1}{12}$。标准化 $\frac{\sqrt{100}(0.52-0.5)}{\sqrt{1/12}}=\frac{10\times0.02}{1/\sqrt{12}}=0.2\sqrt{12}=0.2\times3.4641=0.6928$。故 $P(\bar X_{100}\le0.52)\approx\Phi(0.6928)\approx0.756$。（自验：$0.2\sqrt{12}=0.69282$，$\Phi(0.6928)\approx0.7559$。）
-
-## 模块速查：概率论：条件期望与鞅（研究生级）
-- 检索词：条件期望 conditional expectation 塔性质 tower property 鞅 martingale 上鞅 submartingale 下鞅 supermartingale 可选停时 optional stopping 停时 stopping time Doob 不等式 inequality 随机游走 random walk 一致可积 uniformly integrable
-- 核心内容：① 条件期望 $E[X\mid\mathcal G]$ 是 $\mathcal G$-可测且满足 $E[E[X\mid\mathcal G]\,\mathbf1_A]=E[X\,\mathbf1_A]$（$\forall A\in\mathcal G$）的随机变量；三性质：线性、塔性质 $E[E[X\mid\mathcal G]\mid\mathcal H]=E[X\mid\mathcal H]$（$\mathcal H\subset\mathcal G$）、提取已知量 $E[XY\mid\mathcal G]=Y\,E[X\mid\mathcal G]$（$Y$ 为 $\mathcal G$-可测）。② 鞅定义：$\{X_n\}$ 适应于 $\{\mathcal F_n\}$，$E|X_n|<\infty$，且 $E[X_{n+1}\mid\mathcal F_n]=X_n$（上鞅 $\le$、下鞅 $\ge$）。③ 可选停时定理：$X$ 为鞅，$T$ 为停时。若 $T\le K$ a.s.（有界），则 $E[X_T]=E[X_0]$；一般情形需 $X_{T\wedge n}$ 一致可积（如 $E|X_T|<\infty$ 且 $E[|X_n|\mathbf1_{\{T>n\}}]\to0$，或增量一致有界且 $E[T]<\infty$）。④ Doob 不等式（$L^2$）：非负下鞅 $X$，$E[\max_{k\le n}X_k^2]\le 4E[X_n^2]$（鞅取 $|X|$ 用）；$L^1$ 极大不等式 $P(\max_{k\le n}X_k\ge\lambda)\le E[X_n^+]/\lambda$。
-- 解题路线：① 证鞅：验证可积 + 适应性 + $E[X_{n+1}\mid\mathcal F_n]=X_n$（把增量条件期望算成 0 或 $X_n$）；② 求 $E[X_T]$ 用可选停时定理（先验证 $T$ 有界或一致可积条件，无界停时用 $T\wedge n$ 截断再取极限）；③ 求首达概率/期望用停时 + 鞅构造：对称随机游走 $S_n$、$S_n^2-n$（求 $E[T]$）、几何鞅 $(q/p)^{S_n}$（$p\ne q$，求吸收概率）。
-- 易错点：可选停时定理对无界停时不能直接交换期望（需一致可积或 $E[T]<\infty$ + 增量有界）；上鞅/下鞅方向记反（上鞅 $E[X_{n+1}\mid\mathcal F_n]\le X_n$，下鞅 $\ge$）；Doob $L^2$ 不等式的常数 4 是对非负下鞅，一般鞅要先取绝对值；塔性质中两个 $\sigma$-代数包含方向 $\mathcal H\subset\mathcal G$ 不可写反。
-- 分步收尾：对称随机游走 $S_n$（$S_0=0$，每步 $\pm1$ 等概率），$T=\min\{n:S_n=\pm a\}$（首达 $\pm a$），求 $E[T]$。先证 $S_n$ 是鞅：$E[S_{n+1}\mid\mathcal F_n]=S_n+E[\xi_{n+1}]=S_n$。再证 $X_n=S_n^2-n$ 是鞅：$E[S_{n+1}^2\mid\mathcal F_n]=S_n^2+2S_n E[\xi]+E[\xi^2]=S_n^2+1$，故 $E[X_{n+1}\mid\mathcal F_n]=S_n^2+1-(n+1)=S_n^2-n=X_n$。对 $T\wedge n$ 用可选停时并令 $n\to\infty$（有界步幅且 $E[T]<\infty$）：$E[S_T^2-T]=E[S_0^2-0]=0$，得 $E[T]=E[S_T^2]=a^2$（由对称性 $S_T=\pm a$）。（自验：$E[T]=a^2$。）
-
-## 模块速查：概率论：收敛模式与 Borel-Cantelli 引理（研究生级）
-- 检索词：几乎处处收敛 almost sure a.s. 依概率收敛 in probability 依分布收敛 in distribution 弱收敛 weak convergence Lp 收敛 Lp convergence Borel-Cantelli 引理 lemma Skorokhod 表示 representation 子列 subsequence 无穷多次 infinitely often i.o.
-- 核心内容：① 四种收敛：几乎处处 $P(\lim X_n=X)=1$；依概率 $\forall\varepsilon>0,\ P(|X_n-X|>\varepsilon)\to0$；依分布 $F_n(x)\to F(x)$ 对 $F$ 的一切连续点；$L^p$：$E|X_n-X|^p\to0$。② 蕴含关系：$L^p$ 收敛 $\Rightarrow$ 依概率 $\Rightarrow$ 依分布；a.s. $\Rightarrow$ 依概率；其他方向一般不成立。特殊地，依分布收敛到常数 $c$ 等价于依概率收敛到 $c$；依概率收敛 $\Rightarrow$ 存在子列 a.s. 收敛。③ Borel-Cantelli 引理：第一引理 $\sum_n P(A_n)<\infty\Rightarrow P(A_n\ \text{i.o.})=0$（无需独立）；第二引理若 $A_n$ 独立且 $\sum_n P(A_n)=\infty\Rightarrow P(A_n\ \text{i.o.})=1$。其中 $\{A_n\ \text{i.o.}\}=\limsup_n A_n=\bigcap_n\bigcup_{k\ge n}A_k$。④ Skorokhod 表示定理：$X_n\xrightarrow{d}X$ 则存在同一概率空间上的 $Y_n\sim X_n$、$Y\sim X$ 使 $Y_n\xrightarrow{a.s.}Y$；用于把依分布收敛"翻译"为 a.s. 收敛（证连续映射定理、Fatou 引理等）。
-- 解题路线：① 判断收敛关系：沿蕴含链 $L^p\Rightarrow P\Rightarrow D$、$a.s.\Rightarrow P$ 正推，反向用最小反例排除；② 证 a.s. 收敛：常用 Borel-Cantelli 第一引理——先证对每个 $\varepsilon$，$\sum_n P(|X_n-X|>\varepsilon)<\infty$；③ 把依分布收敛问题化为 a.s.：Skorokhod 表示 + a.s. 工具（控制收敛、Fatou）。
-- 易错点：依分布收敛不能反推依概率（除非极限是常数）；a.s. 与 $L^p$ 互不蕴含（有 a.s. 收敛但 $L^p$ 不收敛，也有 $L^p$ 收敛但非 a.s.）；Borel-Cantelli 第二引理要求独立性、第一引理不要求；$X_n\to0$ a.s. 的 Borel-Cantelli 判据要逐 $\varepsilon$（或对 $\varepsilon=1/m$ 取可数并）。
-- 分步收尾：设 $X_n$ 独立，$P(X_n=1)=p_n$，$P(X_n=0)=1-p_n$，判定 $X_n\to0$ a.s. 的条件。取 $A_n=\{X_n=1\}$，则 $P(A_n)=p_n$。若 $\sum p_n<\infty$，由第一引理 $P(A_n\ \text{i.o.})=0$，即 $X_n=1$ 至多有限次，故 $X_n\to0$ a.s.；若 $\sum p_n=\infty$（且独立），由第二引理 $P(A_n\ \text{i.o.})=1$，即 $X_n=1$ 无穷多次，$X_n$ 不 a.s. 收敛到 0。故 $X_n\to0$ a.s. $\iff \sum_n p_n<\infty$。（自验：判据正确。）
-
-<!-- AUTO-KNOWLEDGE-END -->

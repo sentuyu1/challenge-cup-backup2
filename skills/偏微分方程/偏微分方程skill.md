@@ -4,11 +4,8 @@
 
 - 适用范围：一/二阶 PDE、特征线、调和/热/波方程、边界条件、能量法、Green 函数和形式伴随。
 - 不接管：题目核心是差分/有限元/截断误差转数值分析；抽象 Hilbert 算子谱题转泛函分析。
-- 验证契约：同时保留方程类型、区域、边界/初值和正则性；形式伴随必须写清转置系数与边界项。
+- 验证原则：同时保留方程类型、区域、边界/初值和正则性；形式伴随必须写清转置系数与边界项。
 
-> 基于20道典型习题（14计算+6证明，难度比2:6:2），系统梳理PDE解题方法论
-
----
 ## 1. 一阶线性PDE：特征线法
 
 ### 1.1 核心概念
@@ -46,8 +43,6 @@
 - 对于变系数，将特征方程组写为对称形式 $\frac{dx}{a} = \frac{dt}{b} = \frac{du}{c}$
 - 验证方法：回代至原PDE验证解是否成立
 
----
-
 ## 2. 一阶拟线性PDE：特征线法
 
 ### 2.1 核心概念
@@ -76,8 +71,6 @@
 - **破裂时间计算**：当 $\phi'(x) < 0$ 时，特征线会在有限时间内相交，$t_b = -1/\min \phi'(x)$
 - **隐式解处理**：拟线性PDE的解往往是隐式的，需判断是否可显式解出
 
----
-
 ## 3. 二阶PDE分类判别
 
 ### 3.1 核心概念
@@ -101,8 +94,6 @@
 - $B$ 对应 $u_{xy}$ 项系数的一半（标准写法中是 $2B u_{xy}$）
 - 变系数情形：分类可能依赖于点的位置
 
----
-
 ## 4. 调和函数与拉普拉斯方程
 
 ### 4.1 核心概念
@@ -119,8 +110,6 @@
 
 - 如 $\arctan(y/x)$ 在 $x=0$ 处奇异，需说明定义域
 - 极坐标下 $\Delta u = u_{rr} + \frac{1}{r}u_r + \frac{1}{r^2}u_{\theta\theta}$，不要忘记 $1/r$ 项
-
----
 
 ## 5. 波动方程：行波法与分离变量
 
@@ -148,8 +137,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 | $\phi(x)=\sin(kx)$，$\psi=0$ | $u = \sin(kx)\cos(akt)$ |
 | $\phi=0$，$\psi(x)=\sin(kx)$ | $u = \frac{1}{ak}\sin(kx)\sin(akt)$ |
 
----
-
 ## 6. 热传导方程：分离变量与特征展开
 
 ### 6.1 分离变量法（有界域）
@@ -168,8 +155,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 - **光滑性**：$t>0$ 时解无穷可微
 - **长期行为**：$t\to\infty$ 时 $u \to 0$（齐次边界下）
 
----
-
 ## 7. 傅里叶变换法
 
 对于全无界热传导问题：
@@ -179,8 +164,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 3. 逆变换得 $u(x,t) = \phi * G_t$，其中 $G_t(x) = \frac{1}{\sqrt{4\pi t}} e^{-x^2/(4t)}$
 
 **高斯型初值公式**：若 $\phi(x) = e^{-x^2}$，则 $u(x,t) = \frac{1}{\sqrt{1+4t}} e^{-\frac{x^2}{1+4t}}$。
-
----
 
 ## 8. 拉普拉斯方程：圆域与极坐标
 
@@ -195,8 +178,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 
 **特殊情形**：$u(1,\theta)=\cos(2\theta) \Rightarrow u(r,\theta)=r^2\cos(2\theta)$（仅 $n=2$ 模态）
 
----
-
 ## 9. 非齐次边界与稳态分析
 
 设 $u(x,t) = v(x) + w(x,t)$，其中 $v$ 为稳态解（$v_{xx}=0$），$w$ 为暂态解。
@@ -206,8 +187,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 - 暂态 $w$ 满足齐次方程+齐次边界，$w(x,0) = -x$
 - $w(x,t) = \sum \frac{2(-1)^n}{n\pi} e^{-n^2\pi^2 t}\sin(n\pi x)$
 
----
-
 ## 10. 半无界问题：反射法
 
 半无界 $x > 0$ 通过延拓转化为全无界：
@@ -215,8 +194,6 @@ $$u(x,t) = \frac{\phi(x+at) + \phi(x-at)}{2} + \frac{1}{2a}\int_{x-at}^{x+at} \p
 - **Neumann 边界 $u_x(0,t)=0$** → 偶延拓
 
 奇延拓后在全无界上应用 d'Alembert 公式，再限制回 $x\ge0$。
-
----
 
 ## 11. 非齐次方程：特征展开法
 
@@ -227,8 +204,6 @@ $$u = \sum T_n(t)\sin\frac{n\pi x}{L}, \quad f = \sum f_n(t)\sin\frac{n\pi x}{L}
 $T_n$ 满足 $T_n' + (n\pi/L)^2 T_n = f_n(t)$，用积分因子法求解。
 
 **源项恰为特征函数时**：$f(x,t)=\sin(2x)$ 对应 $n=2$，$T_2' + 4T_2 = 1$，$T_2 = \frac{1}{4}(1-e^{-4t})$。
-
----
 
 ## 12. 能量方法与唯一性
 
@@ -244,15 +219,11 @@ Green 第一恒等式：$\int_\Omega u\Delta v\,dx = \int_{\partial\Omega} u\fra
 
 代入 $\Delta u=0$ 和 $u|_{\partial\Omega}=0$，得 $\int_\Omega |\nabla u|^2 dx = 0 \Rightarrow \nabla u \equiv 0 \Rightarrow u\equiv0$。
 
----
-
 ## 13. 极值原理
 
 热传导方程的极值原理：解的最大（小）值在抛物边界取到。
 
 证明方法：构造 $v = u - \epsilon t$，则 $v_t - v_{xx} = -\epsilon < 0$。若 $v$ 在内部取最大值，则 $v_t \ge 0$, $v_{xx} \le 0$，矛盾。故最大值在边界取到，令 $\epsilon\to0$ 即得。
-
----
 
 ## 14. 格林函数与对称性
 
@@ -260,15 +231,11 @@ Green 第一恒等式：$\int_\Omega u\Delta v\,dx = \int_{\partial\Omega} u\fra
 
 对称性 $G(x,\xi) = G(\xi,x)$ 通过 Green 第二恒等式证明：挖去两奇点小球，应用恒等式，令小球半径趋于零。
 
----
-
 ## 15. 依赖域与传播特征
 
 - 一阶方程 $u_t + c u_x = 0$：依赖域退化为单点 $\{x_0 - ct_0\}$
 - 二阶波动方程 $u_{tt} = a^2 u_{xx}$：依赖域为区间 $[x_0-at_0, x_0+at_0]$
 - 热传导方程：传播速度无限（与波动方程形成对比）
-
----
 
 ## 16. 稳定性估计
 
@@ -277,8 +244,6 @@ Green 第一恒等式：$\int_\Omega u\Delta v\,dx = \int_{\partial\Omega} u\fra
 $E'(t) = \int u u_{xx} dx = -\int u_x^2 dx \le 0$，故 $E(t) \le E(0)$。
 
 由此得 $\int_0^L u^2(x,t)\,dx \le \int_0^L \phi^2(x)\,dx$，即解在 $L^2$ 意义下连续依赖于初值。
-
----
 
 ## 17. 通用解题方法论
 
@@ -322,38 +287,9 @@ PDE
 | 边界条件未齐次化 | 直接对非齐次边界用分离变量 | 先稳态分解 |
 | 奇延拓符号错误 | 反射波相位错误 | Dirichlet→奇延拓，Neumann→偶延拓 |
 
----
+## 18. 散度型二阶算子的形式伴随
 
-## 18. 习题解题思路索引表
-
-| 知识点模块 | 核心方法 | 解法关键词 | 难度 |
-|:---:|:---------|:---------|:----------|:----:|
-| 0 | 一阶线性PDE | 特征线法 | $x-2t=\xi$，$\phi(x)=e^{-x^2}$，$u_t+2u_x=0$ | 易 |
-| 1 | 二阶PDE分类 | 判别式法 | $A=1,B=2,C=4$，$B^2-AC=0$ → 抛物型 | 易 |
-| 2 | 调和函数 | 直接求导验证 | $u_{xx}+u_{yy}=0$ | 易 |
-| 3 | 一阶拟线性PDE | 特征线法 | $dx/dt=u$，$du/dt=0$，隐式$u=\phi(x-ut)$ | 中 |
-| 4 | 波动方程·行波法 | d'Alembert公式 | $\phi=\sin x,\psi=0,a=2$，$\sin x\cos 2t$ | 中 |
-| 5 | 热传导·分离变量 | 分离变量 | 初值$\sin(2x)$→$n=2$特征函数，$e^{-4t}\sin 2x$ | 中 |
-| 6 | 拉普拉斯·矩形域 | 分离变量 | $u=XY$，$Y$为双曲函数 | 中 |
-| 7 | 傅里叶变换法 | Fourier+热核 | 高斯型初值的解析逆变换 | 中 |
-| 8 | 拉普拉斯·圆域 | 极坐标分离变量 | $u=\sum r^n(a_n\cos n\theta+b_n\sin n\theta)$ | 中 |
-| 9 | 非齐次边界·稳态 | 稳态分解+分离变量 | $u=v(x)+w(x,t)$ | 中 |
-| 10 | 一阶线性·变系数 | 特征线法（对称形式） | $dx/1=dy/y=du/0$ | 中 |
-| 11 | 波动方程·分离变量 | 分离变量 | $\cos 3t\sin 3x$ | 中 |
-| 12 | 半无界·反射法 | 奇延拓法 | 奇延拓+d'Alembert | 中 |
-| 13 | 非齐次热传导 | 特征展开法 | 源项恰为特征函数$n=2$ | 中 |
-| 14 | 能量方法·唯一性 | Green第一恒等式 | $\int|\nabla u|^2=0\Rightarrow u\equiv0$ | 中 |
-| 15 | 极值原理 | 修正函数+反证法 | $v=u-\epsilon t$ | 中 |
-| 16 | 能量积分·唯一性 | 能量方法 | $E(t)=\frac12\int(u_t^2+a^2u_x^2)$ | 中 |
-| 17 | 特征线·依赖域 | 特征线分析 | 沿$dx/dt=c$导数为零 | 中 |
-| 18 | 格林函数对称性 | Green第二恒等式 | 挖去奇点，取极限 | 难 |
-| 19 | 热传导·稳定性 | $L^2$能量估计 | $E'(t)=-\int w_x^2\le0$ | 中 |
-
----
-
-## 19. 竞赛拓展：散度型二阶算子的形式伴随
-
-### 19.1 核心概念
+### 18.1 核心概念
 
 考虑散度型二阶线性偏微分算子：
 $$L u = -\sum_{i,j=1}^{n} \frac{\partial}{\partial x_j}\left(a_{ij}(x)\frac{\partial u}{\partial x_i}\right) + \sum_{i=1}^{n} b_i(x)\frac{\partial u}{\partial x_i} + c(x)u$$
@@ -361,7 +297,7 @@ $$L u = -\sum_{i,j=1}^{n} \frac{\partial}{\partial x_j}\left(a_{ij}(x)\frac{\par
 在 $L^2$ 内积 $\langle u, v\rangle = \int_{\Omega} u v\,dx$ 下，$L$ 的形式伴随 $L^*$ 由下式定义：
 $$\langle L u, v\rangle = \langle u, L^* v\rangle \quad (\forall u, v \in C_0^{\infty}(\Omega))$$
 
-### 19.2 分部积分推导
+### 18.2 分部积分推导
 
 对二阶主部反复使用 Green 公式（分部积分）：
 $$\int_{\Omega} \left(-\sum_{i,j}\partial_j(a_{ij}\partial_i u)\right)v\,dx = \int_{\Omega} \sum_{i,j} a_{ij}\partial_i u\,\partial_j v\,dx - \int_{\partial\Omega} \sum_{i,j} a_{ij}\partial_i u\,n_j v\,dS$$
@@ -371,7 +307,7 @@ $$\int_{\Omega} \sum_{i,j} a_{ij}\partial_i u\,\partial_j v\,dx = \int_{\Omega} 
 
 因此二阶项的伴随保持散度形式，但系数矩阵 $A = (a_{ij})$ 变为其转置 $A^T$（若 $a_{ij}$ 不对称）。
 
-### 19.3 一阶项的符号翻转
+### 18.3 一阶项的符号翻转
 
 一阶项 $\sum b_i \partial_i u$ 在分部积分时：
 $$\int_{\Omega} \left(\sum_i b_i \partial_i u\right)v\,dx = -\int_{\Omega} u\sum_i \partial_i(b_i v)\,dx = -\int_{\Omega} u\left(\sum_i b_i \partial_i v + (\sum_i \partial_i b_i)v\right)dx$$
@@ -379,53 +315,9 @@ $$\int_{\Omega} \left(\sum_i b_i \partial_i u\right)v\,dx = -\int_{\Omega} u\sum
 因此一阶项在形式伴随中出现**负号**：
 $$L^* v = -\sum_{i,j}\frac{\partial}{\partial x_i}\left(a_{ji}(x)\frac{\partial v}{\partial x_j}\right) - \sum_{i=1}^{n}\frac{\partial}{\partial x_i}(b_i(x)v) + c(x)v$$
 
-### 19.4 常见陷阱
+### 18.4 常见陷阱
 
 - **一阶项负号**：形式伴随中一阶项的符号与原算子相反（这是分部积分中导数转移到 $v$ 上产生的），忘记负号是最常见错误
 - **转置与对称性**：当矩阵 $A$ 非对称时，$L^*$ 的二阶项系数为 $A^T$ 而非 $A$。仅当 $A$ 对称（即 $a_{ij} = a_{ji}$）时二阶项形式不变
 - **零阶项不变号**：$c(x)$ 项无导数作用，形式伴随中符号不变
 - **边界条件影响**：上述推导假设 $u, v$ 在边界为零。对于非齐次边界条件，边界项不为零，伴随算子的定义域需计入边界条件
-
-### 19.5 应试解题技巧
-
-- 判定自伴性：检查 $A$ 是否对称（$a_{ij}=a_{ji}$）、$b_i=0$（无一阶项）。满足则 $L$ 在 Dirichlet 边界下是形式自伴的
-- 验证方法：写出 $\langle L u, v\rangle - \langle u, L^* v\rangle$，逐项分部积分，确认所有边界项和内部项抵消
-- 竞赛常见题型：给定散度型算子，求其形式伴随并判断是否自伴
-
-<!-- AUTO-KNOWLEDGE-BEGIN 知识点速查（生成区；按学科提炼的抽象题型方法论，不含任何具体题目） -->
-
-以下速查条目是按学科整理的题型方法论（核心内容/解题路线/易错点），供匹配到的题目作方法参考；条目不含任何具体题目的题面或结论，最终答案仍须独立推导并验证。
-
-## 模块速查：偏微分方程：散度型二阶算子的形式伴随
-- 检索词：积分 integral integration 导数 derivative 微分 differential 偏微分 partial PDE 伴随 adjoint 散度 divergence divergence-form
-- 核心内容：对散度型二阶微分算子求 L² 上的形式伴随：二阶项做两次分部积分把导数转移到测试函数上并形成「转置」结构；一阶项做一次分部积分产生负号并把导数转移；零阶项保持自伴；由于试验函数紧支撑，所有边界项消失。伴随由内积等式逐项确定。
-- 解题路线：先写出伴随应满足的内积等式再逐项分部积分；注意系数为实值光滑函数时，其位置（求导符号内或外）在转移中如何处理。
-- 易错点：一阶项漏负号或导数转移方向写错；二阶项只分部积分一次；把系数错误移出导数；混淆形式伴随与转置的符号约定。
-
-## 模块速查：偏微分方程：热方程、Laplace 方程与分离变量法（研究生级）
-- 检索词：热方程 heat equation 热传导 heat conduction Laplace 方程 Laplace equation 调和 harmonic 分离变量 separation of variables 特征值 eigenvalue 波动方程 wave equation Green 函数 Green function
-- 核心内容：① 热方程 u_t=α²u_xx：分离变量 u=X(x)T(t) 得 X''+λX=0、T'+α²λT=0；齐次边值（如 u(0,t)=u(L,t)=0）给出特征值 λ_n=(nπ/L)²、特征函数 X_n=sin(nπx/L)，通解 u=Σ B_n e^{−α²λ_n t} sin(nπx/L)。② Laplace 方程 ∇²u=0：解为调和函数，满足最大值原理（内部无严格极值）与均值性质；圆域/矩形域用分离变量或 Poisson 积分公式。③ 波动方程 u_tt=c²u_xx：分离变量得 u=Σ[A_n cos(nπct/L)+B_n sin(nπct/L)]sin(nπx/L)。
-- 解题路线：解热方程/波动方程 → 分离变量 → 解特征值问题得 λ_n、X_n → 由初值 Fourier 展开定系数 B_n（用正交性 ∫X_m X_n=0）；解 Laplace 方程 → 边界条件选分离变量（直角/极坐标）或 Poisson 公式（圆）。
-- 易错点：分离变量法要求"齐次边值条件"（非齐次先化齐次）；热方程系数是 e^{−λt}（衰减），波动方程是 sin/cos（振荡）；特征函数按权正交，定系数要用带权内积；Laplace 方程最大值原理别用反。
-- 分步收尾：u_t=u_xx，u(0,t)=u(π,t)=0，u(x,0)=sin x：λ_n=n²，通解 ΣB_n e^{−n²t} sin(nx)，初值 sin x 即 B₁=1 其余 0，故 u=e^{−t}sin x。
-## 模块速查：偏微分方程：分离变量法
-- 检索词：分离变量 separation of variables 特征函数展开 eigenfunction expansion 边界条件 boundary condition 热方程 heat equation 波动方程 wave equation 拉普拉斯方程 Laplace equation
-- 核心内容：分离变量法用于线性齐次方程 + 齐次边界条件。设 $u(x,t)=X(x)T(t)$ 代入，分离出 $X$ 的空间方程与 $T$ 的时间方程，令两者等于公共常数 $-\lambda$。①热方程 $u_t=\alpha^2 u_{xx}$（$0<x<L$，$u(0,t)=u(L,t)=0$）：$X_n=\sin\frac{n\pi x}{L}$，$\lambda_n=\left(\frac{n\pi}{L}\right)^2$，$T_n=e^{-\alpha^2\lambda_n t}$，通解 $u=\sum_{n\ge1}B_n e^{-\alpha^2(n\pi/L)^2 t}\sin\frac{n\pi x}{L}$。②波动方程 $u_{tt}=c^2u_{xx}$（同上边界）：$u=\sum_{n\ge1}\left(A_n\cos\frac{n\pi ct}{L}+B_n\sin\frac{n\pi ct}{L}\right)\sin\frac{n\pi x}{L}$。③拉普拉斯方程（矩形/圆域）按边界条件选直角坐标或极坐标分离。系数由初值/边界值做正弦（或余弦）Fourier 展开定出：$B_n=\frac{2}{L}\int_0^L u(x,0)\sin\frac{n\pi x}{L}\,dx$。
-- 解题路线：① 确认方程与边界均齐次（非齐次先分解稳态+暂态化齐）；② 设 $u=XT$ 分离变量，解特征值问题得 $\lambda_n$、$X_n$；③ 写出通解（热方程乘 $e^{-\lambda t}$，波动方程乘 $\sin/\cos$）；④ 用初值 Fourier 展开 + 正交性 $\int_0^L X_m X_n\,dx=0$ 定系数。
-- 易错点：分离变量法要求齐次边界条件，非齐次边界必须先稳态分解；热方程时间因子是衰减 $e^{-\lambda_n t}$，波动方程是振荡 $\sin/\cos$，别写反；特征函数正交性定系数时别漏归一化因子 $\frac{2}{L}$；$\lambda$ 符号约定 $\frac{X''}{X}=-\lambda$ 保证特征值正、得三角函数解，符号写反会得到无解或双曲函数。
-- 分步收尾：解 $u_{tt}=c^2u_{xx}$（$0<x<L$），$u(0,t)=u(L,t)=0$，$u(x,0)=\sin\frac{\pi x}{L}$，$u_t(x,0)=0$。通解 $u=\sum_{n\ge1}\left(A_n\cos\frac{n\pi ct}{L}+B_n\sin\frac{n\pi ct}{L}\right)\sin\frac{n\pi x}{L}$。初值 $u(x,0)=\sin\frac{\pi x}{L}$ 只含 $n=1$ 模态，故 $A_1=1$、$A_n=0\ (n\ge2)$；$u_t(x,0)=0$ 得 $B_n=0$。故 $u(x,t)=\cos\frac{\pi ct}{L}\sin\frac{\pi x}{L}$。（验算：$u_{tt}=-(\frac{\pi c}{L})^2u$，$c^2u_{xx}=-(\frac{\pi c}{L})^2u$，二者相等；且满足所有初边值。）
-
-## 模块速查：偏微分方程：三类方程的基本解
-- 检索词：基本解 fundamental solution 高斯核 Gaussian kernel 热核 heat kernel D'Alembert 公式 d'Alembert formula 格林函数 Green function 拉普拉斯方程 Laplace equation 波动方程 wave equation
-- 核心内容：①热方程 $u_t=k u_{xx}$（全直线）基本解（高斯核/热核）$G(x,t)=\frac{1}{\sqrt{4\pi kt}}e^{-x^2/(4kt)}$（$t>0$），初值问题解 $u(x,t)=\int_{-\infty}^{\infty}G(x-y,t)\,\phi(y)\,dy$（$\phi$ 为初值）。②波动方程 $u_{tt}=a^2u_{xx}$（全直线）D'Alembert 公式：$u(x,t)=\frac{\phi(x+at)+\phi(x-at)}{2}+\frac{1}{2a}\int_{x-at}^{x+at}\psi(s)\,ds$，其中 $\phi(x)=u(x,0)$、$\psi(x)=u_t(x,0)$。③拉普拉斯方程 $\Delta u=0$ 的基本解：二维 $G(x)=\frac{1}{2\pi}\ln|x|$（满足 $\Delta G=\delta$），三维 $G(x)=-\frac{1}{4\pi|x|}$；Dirichlet 问题的 Green 函数 $G(x,\xi)$ 满足 $\Delta_x G=\delta(x-\xi)$、$G|_{\partial\Omega}=0$，解由 Green 函数叠加或边界积分表示。
-- 解题路线：① 判断是全空间还是半空间/有界域；② 热方程全空间用热核卷积，波动方程全空间直接套 D'Alembert，拉普拉斯方程用基本解叠加或 Green 函数；③ 半空间用奇/偶延拓（反射法）回到全空间公式；④ 代入初值/源项计算卷积积分或边界积分。
-- 易错点：热核 $\frac{1}{\sqrt{4\pi kt}}$ 的归一化因子与 $k$、$t$ 的依赖别写错（写成 $1/\sqrt{4\pi t}$ 是 $k=1$ 特例）；D'Alembert 公式第二项积分上限是 $x+at$、下限 $x-at$，且系数 $\frac{1}{2a}$ 别漏；波动方程依赖域是区间 $[x-at,x+at]$，热方程传播速度无穷，二者性质不同；二维 Laplace 基本解是 $\frac{1}{2\pi}\ln|x|$（含对数），三维是 $-\frac{1}{4\pi|x|}$，别混淆。
-- 分步收尾：解 $u_{tt}=4u_{xx}$（全直线），$u(x,0)=x^2$，$u_t(x,0)=0$。此处 $a=2$，$\phi(x)=x^2$，$\psi(x)=0$。由 D'Alembert 公式 $u(x,t)=\frac{(x+2t)^2+(x-2t)^2}{2}=\frac{x^2+4xt+4t^2+x^2-4xt+4t^2}{2}=x^2+4t^2$。验算：$u_{tt}=8$，$u_{xx}=2$，故 $u_{tt}=4u_{xx}$ 成立；$u(x,0)=x^2$，$u_t(x,0)=8t|_{t=0}=0$，均满足。
-
-## 模块速查：偏微分方程：极值原理与能量方法
-- 检索词：极值原理 maximum principle 能量方法 energy method 能量不等式 energy estimate 唯一性 uniqueness 热方程 heat equation 稳定性 stability
-- 核心内容：①热方程极值原理：设 $u$ 在 $\bar{Q}_T=\bar\Omega\times[0,T]$ 上连续、在 $Q_T$ 内满足 $u_t-\Delta u\le0$（或 $=0$），则 $u$ 的最大值在抛物边界 $\partial_p Q_T=(\partial\Omega\times[0,T])\cup(\Omega\times\{0\})$ 上取到；对 $u_t-\Delta u\ge0$ 同理最小值在抛物边界取到。推论：Dirichlet 初边值问题解唯一且连续依赖于初边值（$L^\infty$ 意义）。②能量方法：热方程定义 $E(t)=\frac12\int_\Omega u^2\,dx$，则 $E'(t)=-\int_\Omega|\nabla u|^2\,dx\le0$（齐次边界下），得 $L^2$ 衰减与唯一性；波动方程定义 $E(t)=\frac12\int(u_t^2+a^2|\nabla u|^2)$，$E'(t)=0$，能量守恒；拉普拉斯方程用 Green 第一恒等式 $\int_\Omega u\Delta u+\int_\Omega|\nabla u|^2=\int_{\partial\Omega}u\frac{\partial u}{\partial n}$ 得零边值下 $\int_\Omega|\nabla u|^2=0\Rightarrow u\equiv0$。
-- 解题路线：① 证唯一性：令 $w=u_1-u_2$ 为两解之差，$w$ 满足齐次方程 + 齐次边/初值；② 极值原理法：$w$ 在抛物边界为 0，由极值原理 $w\equiv0$；③ 能量法：对 $w$ 构造 $E(t)$，证明 $E'(t)\le0$ 且 $E(0)=0$，故 $E(t)\equiv0$，$w\equiv0$；④ 稳定性：由能量不等式 $\|u(t)\|\le\|u(0)\|$ 得连续依赖。
-- 易错点：极值原理中最大值在"抛物边界"取到，不是只在空间边界（还包含初始时刻 $\Omega\times\{0\}$）；能量法证热方程唯一性时边界项 $[w w_x]_0^L$ 因齐次边界才消失，非齐次边界不能直接套；$E'(t)\le0$ 只说明 $E$ 不增，要结合 $E(0)=0$ 才得 $E\equiv0$；波动方程能量 $E$ 守恒（$E'=0$），热方程能量衰减（$E'\le0$），方向别搞反。
-- 分步收尾：用能量方法证明 $u_t=u_{xx}$（$0<x<L$，$u(0,t)=u(L,t)=0$，$u(x,0)=\phi(x)$）的解唯一。设 $w$ 为两解之差，则 $w_t=w_{xx}$，$w(0,t)=w(L,t)=0$，$w(x,0)=0$。令 $E(t)=\frac12\int_0^L w^2\,dx$，则 $E'(t)=\int_0^L w w_t\,dx=\int_0^L w w_{xx}\,dx=[w w_x]_0^L-\int_0^L w_x^2\,dx=-\int_0^L w_x^2\,dx\le0$（边界项因 $w(0,t)=w(L,t)=0$ 消失）。故 $E(t)\le E(0)=0$，而 $E(t)\ge0$，所以 $E(t)\equiv0$，即 $w\equiv0$，唯一性得证。
-<!-- AUTO-KNOWLEDGE-END -->

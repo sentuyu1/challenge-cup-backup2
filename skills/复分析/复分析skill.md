@@ -1,21 +1,10 @@
----
-name: complex-analysis-verification
-description: Use when verifying complex analysis problems with sympy — complex numbers, Cauchy-Riemann equations, Cauchy integral formula, Laurent series, residue theorem, contour integration, conformal mapping, argument principle, and Rouché theorem
----
-
 # 复分析解题与验证技能手册
 
 ## 领域边界与路由约定
 
 - 适用范围：全纯函数、Cauchy–Riemann 方程、复积分、Laurent 展开、留数和保形映射。
 - 不接管：虚二次域的整数范数题若无复解析条件转离散数学；实变量 Fourier 变换转数学分析。
-- 验证契约：先确认解析域、孤立奇点和路径方向，再检查留数、绕数及积分定向，不能把形式级数当收敛展开。
-
-## 概述
-
-本技能手册覆盖本科复分析课程的核心知识体系，包括复数运算与de Moivre公式、解析函数与Cauchy-Riemann方程、Cauchy积分理论与高阶导数公式、Laurent级数与收敛半径、留数定理与围道积分、保形映射（Möbius变换）、零点与极点理论（辐角原理、Rouché定理）、以及调和函数等经典内容。全手册以20道精选习题为骨架，系统梳理每个知识模块的核心概念、常用定理、解题步骤和常见陷阱，并配套验证知识提示，适用于复分析课程的学习、复习与自动解题验证。
-
----
+- 验证原则：先确认解析域、孤立奇点和路径方向，再检查留数、绕数及积分定向，不能把形式级数当收敛展开。
 
 ## 知识点体系
 
@@ -48,7 +37,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 2. 使用de Moivre公式 $(re^{i\theta})^n = r^n e^{in\theta}$。
 3. 将结果化回代数形式 $x + yi$（利用 $e^{i\theta} = \cos\theta + i\sin\theta$）。
 4. 化简三角函数值。
-
 
 ---
 
@@ -91,7 +79,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 4. 利用附加条件（如 $f(0) = 1$）确定积分常数。
 5. 将 $u + iv$ 整合为仅含 $z$ 的表达式。
 
-
 ---
 
 ### 模块3：Cauchy积分理论
@@ -126,7 +113,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 3. 将被积函数写成 $\frac{f(z)}{(z-a)^{n+1}}$ 的形式。
 4. 应用Cauchy积分公式或高阶导数公式：直接代入 $f^{(n)}(a)$。
 5. 将结果乘以 $2\pi i$（或 $\frac{2\pi i}{n!}$）。
-
 
 ---
 
@@ -169,7 +155,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 2. 使用比值法 $R = \lim |a_n/a_{n+1}|$ 或识别几何级数结构。
 3. 特殊情况下使用根值法。
 
-
 ---
 
 ### 模块5：留数理论
@@ -206,7 +191,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 3. 对 $m$ 阶极点：使用公式 $\operatorname{Res} = \frac{1}{(m-1)!} \lim \frac{d^{m-1}}{dz^{m-1}}[(z - z_0)^m f(z)]$。
 4. 对本性奇点：通过Laurent展开直接读取 $c_{-1}$ 系数。
 5. 验证：所有孤立奇点留数之和等于无穷远点留数的相反数。
-
 
 ---
 
@@ -258,7 +242,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 3. 应用Jordan引理验证大半圆弧积分为0。
 4. 取实部（或虚部）得到最终结果。
 
-
 ---
 
 ### 模块7：保形映射
@@ -278,7 +261,7 @@ description: Use when verifying complex analysis problems with sympy — complex
 #### 常用公式
 
 1. **标准上半平面到单位圆盘的映射**：
-   $$w = \frac{z - i}{z + i} \quad \text{将上本平面 } \mathbb{H} \text{ 映为单位圆盘 } \mathbb{D}$$
+   $$w = \frac{z - i}{z + i} \quad \text{将上半平面 } \mathbb{H} \text{ 映为单位圆盘 } \mathbb{D}$$
 
 2. **Möbius变换的逆**：
    $$T^{-1}(w) = \frac{-dw + b}{cw - a}$$
@@ -293,7 +276,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 2. 验证边界映射：实轴 $\to$ 单位圆周（通过计算 $|T(x)| = 1$ 对于 $x \in \mathbb{R}$）。
 3. 取一个内部测试点（如上本平面的 $z = i$），计算其像，验证其落在目标区域内。
 4. 由边界对应原理得出完整区域映射结论。
-
 
 ---
 
@@ -345,7 +327,6 @@ description: Use when verifying complex analysis problems with sympy — complex
 4. $N(0) = N(1)$，即 $f$ 和 $f+g$ 零点数相同。
 5. 或使用辐角论证：$|g/f| < 1$ 在 $C$ 上，$1 + g/f$ 在以1为心的单位圆盘内，辐角变化为0。
 
-
 ---
 
 ### 模块9：经典定理
@@ -390,7 +371,6 @@ $$\frac{1}{2\pi i} \oint_C \frac{f'(z)}{f(z)}\,dz = N - P$$
 #### Rouché定理
 
 **定理陈述**：设 $f$ 和 $g$ 在简单闭围道 $C$ 及其内部解析，且在 $C$ 上满足 $|f(z)| > |g(z)|$，则 $f$ 和 $f+g$ 在 $C$ 内部具有相同个数的零点（计重数）。
-
 
 ---
 
@@ -447,325 +427,7 @@ $$\frac{1}{2\pi i} \oint_C \frac{f'(z)}{f(z)}\,dz = N - P$$
 - **实积分结果验证**：对称性（偶函数积分 = $2\int_0^\infty$）、正性（被积函数恒正则积分 > 0）。
 - **收敛半径验证**：$R$ 满足 $|z| < R$ 时级数绝对收敛，$|z| > R$ 时发散。
 - **Rouché验证**：在边界上确实满足 $|f| > |g|$（严格大于）。
-- **sympy 独立验证**：对计算题结果用 sympy 独立验算。
-
----
-
-## sympy验证技巧
-
-本节给出可供 Python 生成阶段使用的 SymPy 核验思路，覆盖复数运算、级数展开、留数计算和围道积分；题面数据仍为唯一的数值来源。
-
-### 复数基础运算
-
-```python
-from sympy import I, re, im, Abs, arg, conjugate, expand, simplify
-
-# 构造复数
-z = 3 + 4*I
-w = 1 + I
-
-# 基本运算
-z_plus_w = z + w          # 加法
-z_times_w = z * w         # 乘法
-z_div_w = z / w           # 除法
-
-# 模和辐角
-modulus = Abs(z)          # 5
-argument = arg(z)         # atan(4/3)
-
-# 共轭
-z_conj = conjugate(z)     # 3 - 4*I
-
-# 验证 |z|^2 = z * conjugate(z)
-assert Abs(z)**2 == expand(z * conjugate(z))
-```
-
-### de Moivre公式与复数的高次幂
-
-```python
-from sympy import I, expand, sqrt, pi, cos, sin, simplify
-
-# 例： 求 (sqrt(3) + i)^6
-z = sqrt(3) + I
-
-# 方法1：直接计算
-result_direct = expand(z**6)     # -64
-
-# 方法2：极坐标 + de Moivre
-from sympy import Abs, arg
-r = Abs(z)                       # 2
-theta = arg(z)                   # pi/6
-# (r * exp(i*theta))^6 = r^6 * exp(i*6*theta)
-result_polar = simplify(r**6 * (cos(6*theta) + I*sin(6*theta)))  # -64
-
-# 验证两种方法一致
-assert simplify(result_direct - result_polar) == 0
-```
-
-```python
-# 通项模式：求任意复数的高次幂
-from sympy import I, expand, symbols, Abs, arg, cos, sin, simplify
-
-a, b, n = symbols('a b n', integer=True)
-z_expr = 1 + sqrt(3)*I
-r_val = Abs(z_expr)
-theta_val = arg(z_expr)
-# 结果 = r^n * (cos(n*theta) + i*sin(n*theta))
-```
-
-### Cauchy-Riemann方程验证
-
-```python
-from sympy import I, symbols, diff, expand
-
-x, y = symbols('x y', real=True)
-
-# 例： 验证 f(z) = |z|^2 的C-R条件
-u = x**2 + y**2
-v = 0
-
-ux = diff(u, x)    # 2x
-uy = diff(u, y)    # 2y
-vx = diff(v, x)    # 0
-vy = diff(v, y)    # 0
-
-# C-R方程: ux == vy 且 uy == -vx
-cr1 = simplify(ux - vy)        # 2x == 0 => x=0
-cr2 = simplify(uy + vx)        # 2y == 0 => y=0
-# 仅在 (x,y) = (0,0) 处满足C-R方程，但不是开集内每一点都满足
-
-# 例： 验证 u = e^x cos y 是调和函数
-u_harm = exp(x) * cos(y)
-uxx = diff(u_harm, x, 2)       # e^x cos y
-uyy = diff(u_harm, y, 2)       # -e^x cos y
-laplace = simplify(uxx + uyy)  # 0 -> 调和
-
-# 求共轭调和函数: v_y = u_x, v_x = -u_y
-# 步骤通过符号积分完成
-from sympy import integrate, symbols
-C1 = symbols('C1')
-v_candidate = integrate(diff(u_harm, x), y)  # e^x sin y
-# 验证 v_x = -u_y
-vx_check = diff(v_candidate, x)        # e^x sin y
-uy_neg = -diff(u_harm, y)              # e^x sin y
-assert simplify(vx_check - uy_neg) == 0
-```
-
-### Cauchy积分公式
-
-```python
-from sympy import I, pi, exp, diff, symbols
-
-z, a = symbols('z a')
-
-# 例： ∮ e^z/z dz 沿 |z|=1
-# Cauchy积分公式: ∮ f(z)/(z-a) dz = 2πi f(a)
-# 取 f(z) = e^z, a = 0
-f_z = exp(z)
-result = 2*pi*I * f_z.subs(z, 0)  # 2πi * e^0 = 2πi
-
-# 例： ∮ e^z/(z-1)^3 dz 沿 |z|=2
-# 高阶Cauchy: ∮ f(z)/(z-a)^{n+1} dz = (2πi/n!) f^{(n)}(a)
-# n = 2, a = 1, f(z) = e^z
-n = 2
-a_val = 1
-f_n = diff(exp(z), z, n)            # e^z
-f_n_at_a = f_n.subs(z, a_val)       # e^1 = e
-result_high = (2*pi*I / factorial(n)) * f_n_at_a  # πie
-
-from sympy import factorial
-def factorial_sympy(k):
-    from sympy import factorial as sp_factorial
-    return sp_factorial(k)
-
-result_high = (2*pi*I / factorial_sympy(n)) * f_n_at_a
-```
-
-### 级数展开与收敛半径
-
-```python
-from sympy import symbols, series, oo, limit_seq, summation
-
-z = symbols('z')
-
-# 例： Laurent展开: 1/(z(z-1)) 在 0<|z|<1
-f = 1/(z*(z-1))
-
-# 部分分式分解
-from sympy import apart
-f_partial = apart(f, z)  # -1/z - 1/(1-z) 或 1/(z-1) - 1/z
-
-# 1/(1-z) 的展开 (|z| < 1): Σ z^n
-# 1/(z-1) = -1/(1-z) = -(1+z+z^2+...)
-# 因此 f(z) = -1/z - 1 - z - z^2 - z^3 - ...
-
-# Taylor级数验证（在z=0展开，注意这是Laurent级数）
-from sympy import series as sp_series
-laurent = sp_series(f, z, n=6)  # 返回带O(z^5)的级数
-# 应该得到 -1/z - 1 - z - z^2 - z^3 - z^4 + O(z^5)
-
-# 例： 收敛半径: Σ z^n/2^n
-# 使用比值法
-n = symbols('n', integer=True, positive=True)
-a_n = 1 / (2**n)
-a_np1 = 1 / (2**(n+1))
-from sympy import limit
-R = limit(a_n / a_np1, n, oo)  # 2
-
-# 或识别为几何级数 Σ (z/2)^n，收敛当 |z/2| < 1，即 |z| < 2
-```
-
-### 留数计算
-
-```python
-from sympy import I, oo, limit, diff, symbols
-
-z = symbols('z')
-
-# 例： 求 f(z) = 1/(z*(z-1)^2) 的留数
-f = 1 / (z * (z-1)**2)
-
-# z=0 是简单极点
-res_0 = limit(z * f, z, 0)  # 1
-
-# z=1 是二阶极点
-# Res(f, 1) = (1/1!) * lim_{z->1} d/dz[(z-1)^2 * f(z)]
-g = (z-1)**2 * f              # 1/z
-dg = diff(g, z)               # -1/z^2
-res_1 = limit(dg, z, 1)       # -1
-
-# 验证留数之和 = 0（包括无穷远点，期望 ΣRes + Res(∞) = 0）
-# 对于此函数 Res(∞) = 0，所以 ΣRes = 1 + (-1) = 0
-
-# 通用留数计算函数
-def compute_residue(f, z0, order=1):
-    """计算函数 f 在 z=z0 处的留数（假设为 order 阶极点）"""
-    if order == 1:
-        return limit((z - z0) * f, z, z0)
-    else:
-        g = (z - z0)**order * f
-        dg = diff(g, z, order - 1)
-        from sympy import factorial as sp_fact
-        return limit(dg, z, z0) / sp_fact(order - 1)
-```
-
-### 实积分计算（留数定理）
-
-```python
-from sympy import I, pi, oo, limit, diff, cos, sin, symbols, expand, simplify, factor
-
-z, theta, x = symbols('z theta x')
-
-# 例： ∫_{-∞}^{∞} dx/(x^4+1)
-# 上半平面极点: z_k = e^{iπ(2k+1)/4}, k = 0, 1 (在第一、二象限)
-# z_0 = e^{iπ/4} = (1+i)/√2, z_1 = e^{i3π/4} = (-1+i)/√2
-# 对简单极点 z_k: Res(P/Q, z_k) = P(z_k)/Q'(z_k) = 1/(4z_k^3)
-
-# 计算留数
-f_rational = 1 / (z**4 + 1)
-Q_prime = diff(z**4 + 1, z)  # 4z^3
-
-# 上半平面极点
-import sympy as sp
-z0 = sp.exp(sp.I * sp.pi / 4)      # e^{iπ/4}
-z1 = sp.exp(3 * sp.I * sp.pi / 4)  # e^{i3π/4}
-
-res_z0 = simplify(1 / Q_prime.subs(z, z0))
-res_z1 = simplify(1 / Q_prime.subs(z, z1))
-sum_res = simplify(res_z0 + res_z1)  # -i/(2√2) = -I/(2*sqrt(2))
-result_6 = simplify(2 * pi * I * sum_res)  # π/√2
-
-# 例： ∫_0^{2π} dθ/(5+4cos θ)
-# 代换: z = e^{iθ}, cosθ = (z+z^{-1})/2, dθ = dz/(iz)
-z = symbols('z')
-cos_theta = (z + 1/z) / 2
-dtheta = 1 / (I * z)
-integrand = 1 / (5 + 4 * cos_theta) * dtheta  # 1/(iz(5+2(z+z^{-1})))
-
-# 化简
-integrand_simp = simplify(integrand)
-# = 1/(I*(2*z**2 + 5*z + 2))
-# 因式分解分母
-denom = 2*z**2 + 5*z + 2  # = (2z+1)(z+2)
-# 在 |z|=1 内仅 z = -1/2 是极点
-# Res = 1/(I*(2*(z+2))) 在 z = -1/2 处 = 1/(I*2*(-1/2+2)) = 1/(3I)
-# 积分 = 2πi * (1/(3i)) = 2π/3
-
-# 例： ∫_0^∞ cos x/(x^2+1) dx
-# 考虑 ∮ e^{iz}/(z^2+1) dz 沿上半平面大半圆
-# 在上半平面仅 z = i 是极点
-res_i = limit((z - I) * sp.exp(I*z) / (z**2 + 1), z, I)
-# = e^{i·i}/(2i) = e^{-1}/(2i)
-# 积分 = π/e (整条实轴)
-# 由偶对称性，∫_0^∞ = π/(2e)
-```
-
-### 全参数化验证流程
-
-```python
-from sympy import I, pi, oo, limit, diff, cos, sin, symbols, expand, simplify, Abs, arg, integrate
-
-z, x, y, theta = symbols('z x y theta', real=False)
-
-# ============ 验证 ：复数高次幂 ============
-result_0 = expand((sp.sqrt(3) + I)**6)
-assert simplify(result_0) == -64
-
-# ============ 验证 ：Cauchy积分公式 ============
-# ∮ e^z/z dz = 2πi
-result_2 = 2 * pi * I * sp.exp(0)
-assert simplify(result_2) == 2*pi*I
-
-# ============ 验证 ：Laurent 展开 ============
-from sympy import apart
-f4 = 1/(z*(z-1))
-partial = apart(f4, z)  # 1/(z-1) - 1/z
-# 在 0<|z|<1 内: 1/(z-1) = -1/(1-z) = -(1+z+z^2+...)
-# f4 = -1/z - 1 - z - z^2 - ... = -Σ_{n=-1}^{∞} z^n
-
-# ============ 验证 ：留数 ============
-f5 = 1 / (z * (z-1)**2)
-res5_0 = limit(z * f5, z, 0)  # 1
-# z=1是二阶极点
-g5 = (z-1)**2 * f5  # 1/z
-res5_1 = limit(diff(g5, z), z, 1)  # -1
-assert res5_0 == 1 and res5_1 == -1
-
-# ============ 验证 ：收敛半径 ============
-# Σ z^n/2^n, a_n = 1/2^n
-n_sym = symbols('n', integer=True, positive=True)
-R8 = sp.limit(1/(2**n_sym) / (1/(2**(n_sym+1))), n_sym, oo)
-assert R8 == 2
-```
-
----
-
-## 习题索引
-
-| 题型 | 难度 | 主题 | 关键公式/定理 | 核心方法 | 验证方法 |
-|-----|------|------|------|-------------|---------|---------|
-| 0 | 计算 | 简单 | 复数运算与de Moivre公式 | $(re^{i\theta})^n = r^n e^{in\theta}$ | 化为极坐标 + de Moivre | `expand(z**6)` 直接计算 |
-| 1 | 计算 | 简单 | Cauchy-Riemann方程 | $u_x = v_y$, $u_y = -v_x$ | 分离实虚部 + 验证C-R方程 | sympy `diff` 验证偏导 |
-| 2 | 计算 | 简单 | Cauchy积分公式 | $\oint \frac{f(z)}{z-a} dz = 2\pi i f(a)$ | 直接代入Cauchy公式 | $2\pi i \cdot f(0)$ |
-| 3 | 计算 | 中等 | 高阶Cauchy积分公式 | $\oint \frac{f(z)}{(z-a)^{n+1}} dz = \frac{2\pi i}{n!} f^{(n)}(a)$ | 识别 $n=2$, $f(z)=e^z$, $a=1$ | sympy `diff(f, z, n)` |
-| 4 | 计算 | 中等 | Laurent级数 | 几何级数 $\frac{1}{1-z} = \sum z^n$ | 部分分式 + 几何级数展开 | `apart` + `series` |
-| 5 | 计算 | 中等 | 留数计算 | $\operatorname{Res}(f,z_0) = \frac{1}{(m-1)!} \lim \frac{d^{m-1}}{dz^{m-1}}[(z-z_0)^m f]$ | 判断极点阶数 + 留数公式 | `limit` + `diff` 留数公式 |
-| 6 | 计算 | 中等 | 留数定理求实积分 | $\int_{-\infty}^{\infty} = 2\pi i \sum_{\operatorname{Im}>0} \operatorname{Res}$ | 上半平面极点 + 留数定理 | sympy 留数计算 + 求和 |
-| 7 | 计算 | 中等 | 调和函数与共轭调和函数 | $u_{xx}+u_{yy}=0$, C-R积分 | 验证调和性 + C-R积分求 $v$ | `diff(u, x, 2)+diff(u, y, 2)` |
-| 8 | 计算 | 中等 | 收敛半径 | $R = \lim \|a_n/a_{n+1}\|$ | 比值法或识别几何级数 | `limit(a_n/a_{n+1})` |
-| 9 | 计算 | 中等 | Rouché定理应用 | Rouché: $\|f\| > \|g\|$ 在 $C$ 上 | 边界比较 + 占优项零点计数 | 逻辑验证 $|f| > |g|$ |
-| 10 | 计算 | 中等 | 保形映射 | Möbius: $w = \frac{az+b}{cz+d}$ 保圆 | 验证边界映射 + 内部测试点 | $\|T(x)\|$ 计算 |
-| 11 | 计算 | 中等 | 留数求三角积分 | $z = e^{i\theta}$, $\cos\theta = \frac{z+z^{-1}}{2}$ | 变量代换 + 单位圆内留数 | sympy 留数计算 |
-| 12 | 计算 | 困难 | 围道积分 | Jordan引理 + $\operatorname{Re}[\oint e^{iz}f(z)]$ | 上半平面围道 + 取实部 | sympy 留数 + 取实部 |
-| 13 | 计算 | 困难 | 级数与特殊积分 | $e^{\cos\theta}\cos(\sin\theta-\theta) = \operatorname{Re}[e^{e^{i\theta}} e^{-i\theta}]$ | 复指数改写 + 留数定理 | sympy `series` 留数展开 |
-| 14 | 证明 | 简单 | C-R方程必要性 | 沿实轴和虚轴方向取极限 | 两方向导数相等 + 实虚部比较 | 逻辑验证 |
-| 15 | 证明 | 中等 | Liouville定理 | Cauchy估计 $\|f'(z_0)\| \leq M/R$ | Cauchy导数公式 + ML估计 | 不等式推导逻辑 |
-| 16 | 证明 | 中等 | 最大模原理 | 平均值性质 $f(z_0) = \frac{1}{2\pi}\int f(z_0+re^{i\theta})d\theta$ | 反证法 + 平均值性质 | 逻辑推导 |
-| 17 | 证明 | 中等 | 代数学基本定理 | Liouville定理 | 反证法: $1/P(z)$ 有界整函数 | 逻辑推导 |
-| 18 | 证明 | 困难 | 辐角原理 | $\frac{1}{2\pi i}\oint \frac{f'}{f} = N-P$ | 对数导数 + 留数定理 | 留数分析逻辑 |
-| 19 | 证明 | 困难 | Rouché定理 | 同伦族 $F_t = f + tg$ | 辐角原理 + 连续整数值函数 | 同伦论证逻辑 |
-
----
+- **独立验算**：对计算题结果用另一套符号或数值方法复核。
 
 ## 常见错误与陷阱
 
@@ -807,8 +469,6 @@ assert R8 == 2
 23. **最大模原理证明中等号条件的误判**：平均值性质取模后得到的不等式链中，等号成立需要 $|f(z_0+re^{i\theta})| \equiv M$ 对所有 $\theta$ 恒成立，这需要连续的三角不等式等号条件，而非仅在某一点成立。
 24. **Rouché定理应用时占优项选取不当**：在 $|z|=1$ 上比较 $|z^8|=1$、$|3z^3|=3$ 和 $|1|=1$ 时，应选取 $|3z^3| = 3$ 作为 $|f(z)|$（模最大者），其余两项之和作为 $|g(z)|$。选取错误的占优项会导致无法满足 $|f| > |g|$。
 25. **辐角原理中零点/极点重数的遗漏**：$m$ 重零点贡献的留数是 $m$，$k$ 阶极点贡献的留数是 $-k$。计重数是辐角原理的核心要求，遗漏重数会使 $N-P$ 的值不正确。
-
----
 
 ## 关键公式速查表
 
@@ -860,8 +520,8 @@ assert R8 == 2
 
 ### 经典定理
 
-| 定理 | 精确陈述 | 典型应用 | 相关习题 |
-|------|---------|---------|---------|
+| 定理 | 精确陈述 | 典型应用 |
+|------|---------|---------|
 | **Liouville定理** | 有界整函数必为常数 | 证明代数学基本定理 |
 | **最大模原理** | 非常数解析函数的模不能在区域内取最大值 | 解析函数模的上下界估计 |
 | **代数学基本定理** | $n$ 次（$n \geq 1$）复系数多项式在复数域中恰有 $n$ 个根（计重数） | 多项式根的分布 |
@@ -878,8 +538,6 @@ assert R8 == 2
 | **上半平面到单位圆盘** | $w = \frac{z-i}{z+i}$ | $\mathbb{H} \to \mathbb{D}$ |
 | **单位圆盘到上半平面** | $w = i\frac{1-z}{1+z}$（Cayley变换） | $\mathbb{D} \to \mathbb{H}$ |
 | **一般Möbius变换** | $w = \frac{az+b}{cz+d}$（$ad-bc \neq 0$） | 圆到圆，保对称性 |
-
----
 
 ## 计算题标准解法速查
 
@@ -933,52 +591,39 @@ assert R8 == 2
 
 例：$w=\frac{z-i}{z+i}$：实轴 $\to |w|=1$；$z=i \to w=0 \in \mathbb{D}$，故将上半平面映为单位圆盘。
 
----
-
 ## 证明题标准策略速查
 
 ### 策略1：双方向极限法
-**适用**：C-R方程必要性（）
+**适用**：C-R方程必要性
 
 模式：令 $h$ 沿实轴和虚轴分别趋于0，两个极限必须相等，比较实部和虚部得出C-R方程。
 
 ### 策略2：不等式估计 + 极限法
-**适用**：Liouville定理（）
+**适用**：Liouville定理
 
 模式：利用Cauchy导数公式写出 $f'$ 的积分表示 $\to$ ML估计得 $|f'| \leq M/R$ $\to$ 令 $R \to \infty$ 得 $f'=0$ $\to$ $f$ 为常数。
 
 ### 策略3：反证法 + 平均值性质
-**适用**：最大模原理（）
+**适用**：最大模原理
 
 模式：假设在某内点取最大模 $\to$ 取小圆周应用平均值性质 $\to$ 不等式链迫使模在圆周上恒为常数 $\to$ 唯一性定理推出矛盾。
 
 ### 策略4：反证法 + Liouville定理
-**适用**：代数学基本定理（）
+**适用**：代数学基本定理
 
 模式：假设多项式无根 $\to$ $1/P$ 是整函数 $\to$ 证明 $1/P$ 有界 $\to$ Liouville定理 $\to$ 矛盾。
 
 ### 策略5：留数分析 + 留数定理
-**适用**：辐角原理（）
+**适用**：辐角原理
 
 模式：考察 $f'/f$ 的奇点（恰为 $f$ 的零点和极点）$\to$ 在零点和极点处分别计算留数（$m$ 和 $-k$）$\to$ 用留数定理求和。
 
 ### 策略6：同伦族 + 辐角原理
-**适用**：Rouché定理（）
+**适用**：Rouché定理
 
 模式：构造 $F_t = f + tg$ 的同伦族 $\to$ $N(t) = \frac{1}{2\pi i} \oint F_t'/F_t$ 是连续整数值函数故为常数 $\to$ $N(0) = N(1)$ 得证。
 
----
-
-## 参考资源
-
-- 配套验证知识提示：`复分析验证示例.py`
-- 数据集来源：`复分析.md`（20题，涵盖全部核心知识点）
-- 推荐教材：《复变函数》（Ahlfors）、《Complex Analysis》（Stein-Shakarchi）、《复变函数与积分变换》
-- 在线工具：SymPy Live、SageMath、Wolfram Alpha
-
----
-
-## 竞赛拓展：虚二次域范数方程与复数表示
+## 虚二次域范数方程与复数表示
 
 ### 核心概念
 
@@ -997,7 +642,7 @@ $$a^2 + d b^2 = n$$
 
 其中 $a, b$ 为整数（若考虑代数整数环）或有理数（若考虑域本身）。
 
-**典型问题：** 给定 $n$ 和 $d$，求所有满足 $a^2 + d b^2 = n$ 的整数解 $(a, b)$。这在竞赛中以 Pell 型方程或二次型表示整数的形式出现。
+**典型问题：** 给定 $n$ 和 $d$，求所有满足 $a^2 + d b^2 = n$ 的整数解 $(a, b)$。这常以 Pell 型方程或二次型表示整数的形式出现。
 
 ### 复数视角下的范数方程
 
@@ -1013,7 +658,7 @@ $$n = (a_1 a_2 - d b_1 b_2)^2 + d(a_1 b_2 + a_2 b_1)^2$$
 这对应于复数乘法的范数乘性：
 $$(a_1 + b_1 i\sqrt{d})(a_2 + b_2 i\sqrt{d}) = (a_1 a_2 - d b_1 b_2) + (a_1 b_2 + a_2 b_1)i\sqrt{d}$$
 
-### 竞赛常见题型
+### 常见题型
 
 1. **整数的平方和表示唯一性：** 在虚二次域中讨论 $a^2 + d b^2$ 表示的唯一性（与类数相关）
 2. **范数方程的整数解计数：** 利用虚二次域的整数环结构（特别是 $d=1,2,3$ 时为主理想环）分析解的存在性和个数
@@ -1025,12 +670,7 @@ $$(a_1 + b_1 i\sqrt{d})(a_2 + b_2 i\sqrt{d}) = (a_1 a_2 - d b_1 b_2) + (a_1 b_2 
 - **$d=1$ 的特殊性**：Gauss整数环 $\mathbb{Z}[i]$ 的范数为 $a^2 + b^2$，与通常复数模平方一致。对于 $d > 1$，范数中的系数 $d$ 使格点沿虚轴拉伸
 - **分解不唯一**：在类数大于1的虚二次域中，代数整数环不是 UFD，范数方程的求解需要更细致的分析
 
-### 应试解题技巧
-
-- 判断 $n$ 能否表示为 $a^2 + d b^2$：先检查模 $p$ 条件（二次剩余），再利用复数乘法的范数乘性进行分解
-- 利用复数共轭的范数等式快速验证解的合法性：$N(z_1 z_2) = N(z_1)N(z_2)$ 可用于约化高次范数方程
-
-## 竞赛拓展：Rouche 定理、辐角原理与零点计数
+## Rouche 定理、辐角原理与零点计数
 
 ### Rouche 定理（Rouché's theorem）
 
@@ -1064,7 +704,7 @@ $$\frac{1}{2\pi i}\oint_C \frac{f'(z)}{f(z)}\,dz = N - P = \frac{1}{2\pi}\Delta_
 - 零点按**重数**计算
 - 辐角原理中 $f$ 在 $C$ 上不能有零点或极点
 
-## 竞赛拓展：解析延拓、唯一性定理与共形映射
+## 解析延拓、唯一性定理与共形映射
 
 ### 解析延拓唯一性定理
 
@@ -1097,31 +737,3 @@ $$\frac{(w-w_1)(w_2-w_3)}{(w-w_3)(w_2-w_1)} = \frac{(z-z_1)(z_2-z_3)}{(z-z_3)(z_
 - 唯一性定理要求聚点在**区域内部**（边界点不算）
 - Möbius 变换要求 $ad-bc\ne0$（否则退化为常数）
 - 保角映射分"保角"与"反角"（方向），$w=\bar z$ 是反角的
-
-## 模块速查：复分析：留数定理与围道积分
-- 检索词：留数 residue 留数定理 residue theorem 围道积分 contour integral 实积分 real integral 三角积分 trigonometric integral 有理函数 rational function
-- 核心内容：留数 $\operatorname{Res}(f,z_0)$ 是 $f$ 在孤立奇点 $z_0$ 处 Laurent 展开中 $(z-z_0)^{-1}$ 的系数 $c_{-1}$。留数定理：若 $f$ 在简单闭围道 $C$ 及其内部除有限个孤立奇点 $z_1,\dots,z_k$ 外解析，则 $\oint_C f(z)\,dz = 2\pi i\sum_{j=1}^{k}\operatorname{Res}(f,z_j)$。用留数算实积分：①有理函数 $\int_{-\infty}^{\infty}\frac{P(x)}{Q(x)}\,dx$（要求 $\deg Q\ge\deg P+2$，且 $Q$ 在实轴上无零点）$=2\pi i\sum_{\operatorname{Im}z_j>0}\operatorname{Res}(\frac{P}{Q},z_j)$；②三角积分 $\int_0^{2\pi}R(\cos\theta,\sin\theta)\,d\theta$ 用 $z=e^{i\theta}$、$\cos\theta=\frac{z+z^{-1}}{2}$、$\sin\theta=\frac{z-z^{-1}}{2i}$、$d\theta=\frac{dz}{iz}$ 化为单位圆围道积分 $=\oint_{|z|=1}R(\frac{z+z^{-1}}{2},\frac{z-z^{-1}}{2i})\frac{dz}{iz}=2\pi i\sum_{|z_j|<1}\operatorname{Res}(f,z_j)$。
-- 解题路线：① 写出围道并确定围道内所有孤立奇点；② 对每个奇点判阶并求留数（一阶极点用 $\lim_{z\to z_0}(z-z_0)f(z)$ 或 $P(z_0)/Q'(z_0)$，高阶极点用导数公式）；③ 留数定理求和乘 $2\pi i$ 得结果；④ 实积分还需验证大半圆弧/单位圆代换的合理性（次数条件或 Jordan 引理）。
-- 易错点：有理函数实积分必须满足 $\deg Q\ge\deg P+2$，否则大半圆弧积分不趋于 0；三角代换 $d\theta=\frac{dz}{iz}$ 的 $i$ 和 $z$ 都别漏；只取围道内部的奇点，围道外的奇点不贡献；$P(z_0)/Q'(z_0)$ 公式要求 $z_0$ 是一阶极点（$Q(z_0)=0$ 但 $Q'(z_0)\ne0$）。
-- 分步收尾：计算 $I=\int_0^{2\pi}\frac{d\theta}{5+3\cos\theta}$。令 $z=e^{i\theta}$，$\cos\theta=\frac{z+z^{-1}}{2}$，$d\theta=\frac{dz}{iz}$，则 $I=\oint_{|z|=1}\frac{2\,dz}{iz(10+3z+3z^{-1})}=\oint_{|z|=1}\frac{2\,dz}{i(3z^2+10z+3)}$。因式分解 $3z^2+10z+3=3(z+\tfrac13)(z+3)$，单位圆内仅 $z=-\tfrac13$ 为奇点，$\operatorname{Res}=\lim_{z\to-\frac13}(z+\tfrac13)\frac{2}{i\cdot3(z+\tfrac13)(z+3)}=\frac{2}{3i(\tfrac83)}=\frac{1}{4i}$。故 $I=2\pi i\cdot\frac{1}{4i}=\frac{\pi}{2}$。
-
-## 模块速查：复分析：Cauchy 积分公式与解析函数性质
-- 检索词：Cauchy 积分公式 Cauchy integral formula 导数公式 derivative formula 高阶导数 higher derivative Liouville 定理 最大模原理 maximum modulus principle 零点孤立 isolated zero 解析 analytic holomorphic
-- 核心内容：设 $f$ 在简单闭围道 $C$ 及其内部解析，$a$ 在 $C$ 内，则 Cauchy 积分公式 $f(a)=\frac{1}{2\pi i}\oint_C\frac{f(z)}{z-a}\,dz$ 与高阶导数公式 $f^{(n)}(a)=\frac{n!}{2\pi i}\oint_C\frac{f(z)}{(z-a)^{n+1}}\,dz$。由积分公式导出：Liouville 定理（有界整函数必为常数）；最大模原理（非常数解析函数在区域内取不到模的最大值，最大值只能在边界取到）；零点孤立性（非零解析函数 $f$ 的零点孤立：每个零点存在邻域内无其他零点，等价于解析函数唯一性定理——两解析函数在一个有聚点的集合上相等则恒等）。
-- 解题路线：① 判断被积函数奇点位置与围道关系；② 把被积式配成 $\frac{f(z)}{(z-a)^{n+1}}$ 形式，确定 $f$、$a$、$n$；③ 代入公式 $\oint=\frac{2\pi i}{n!}f^{(n)}(a)$，计算 $f^{(n)}(a)$；④ 证明题（Liouville、最大模）用 Cauchy 估计/平均值性质配合反证或令 $R\to\infty$。
-- 易错点：高阶导数公式系数是 $\frac{2\pi i}{n!}$，遗漏 $1/n!$ 是高频错误；分母 $(z-a)^{n+1}$ 对应 $f^{(n)}(a)$，$n$ 的对应关系别搞混（别把 $n+1$ 当成 $n$）；必须先确认 $a$ 在围道内部，奇点在围道外积分为 0；最大模原理是"内部取不到最大值"，不是"处处无最大值"。
-- 分步收尾：计算 $\oint_{|z|=1}\frac{\cos z}{z^3}\,dz$。分母 $z^3=(z-0)^{2+1}$，取 $f(z)=\cos z$，$a=0$，$n=2$。高阶导数公式给出 $\oint=\frac{2\pi i}{2!}f''(0)$。因 $f''(z)=-\cos z$，$f''(0)=-1$，故原式 $=\frac{2\pi i}{2}\cdot(-1)=-\pi i$。（验算：$\frac{\cos z}{z^3}=\frac{1}{z^3}-\frac{1}{2z}+\frac{z}{24}-\cdots$，留数 $c_{-1}=-\frac12$，积分 $=2\pi i\cdot(-\frac12)=-\pi i$，一致。）
-
-## 模块速查：复分析：洛朗级数与孤立奇点
-- 检索词：洛朗级数 Laurent series 孤立奇点 isolated singularity 可去奇点 removable singularity 极点 pole 本性奇点 essential singularity 留数计算 residue
-- 核心内容：若 $f$ 在圆环 $r<|z-z_0|<R$ 内解析，则 $f(z)=\sum_{n=-\infty}^{\infty}c_n(z-z_0)^n$，$c_n=\frac{1}{2\pi i}\oint_C\frac{f(z)}{(z-z_0)^{n+1}}\,dz$。孤立奇点 $z_0$ 按 Laurent 展开分类：①可去奇点（无负幂项，$\lim_{z\to z_0}f(z)$ 存在且有限）；②$m$ 阶极点（负幂项有限且最低次为 $(z-z_0)^{-m}$，即 $c_{-m}\ne0$ 而 $n<-m$ 时 $c_n=0$）；③本性奇点（无穷多负幂项）。留数：$\operatorname{Res}(f,z_0)=c_{-1}$；一阶极点 $\operatorname{Res}=\lim_{z\to z_0}(z-z_0)f(z)$；$m$ 阶极点 $\operatorname{Res}=\frac{1}{(m-1)!}\lim_{z\to z_0}\frac{d^{m-1}}{dz^{m-1}}[(z-z_0)^m f(z)]$。
-- 解题路线：① 确定奇点类型（可去/极点/本性）；② 求 Laurent 展开（部分分式+几何级数，或利用已知展开）或直接用留数公式；③ 一阶极点用极限公式，$m$ 阶极点用导数公式，本性奇点必须读展开的 $c_{-1}$；④ 验证留数之和：$\sum$有限奇点留数 $+\operatorname{Res}(f,\infty)=0$。
-- 易错点：极点阶数判断错会导致用错公式（如 $1/[z(z-1)^2]$ 中 $z=0$ 是一阶、$z=1$ 是二阶）；$m$ 阶极点留数公式的 $1/(m-1)!$ 因子别漏；几何级数在 $|z|>1$ 时展开方向相反（$\frac{1}{1-z}=-\sum_{n\ge1}z^{-n}$）；本性奇点不能套极限公式，只能读 Laurent 系数。
-- 分步收尾：求 $f(z)=\frac{e^z}{z^2(z-1)}$ 在 $z=0$ 处的留数（$z=0$ 是二阶极点）。用公式 $\operatorname{Res}(f,0)=\lim_{z\to0}\frac{d}{dz}[z^2 f(z)]=\lim_{z\to0}\frac{d}{dz}\frac{e^z}{z-1}$。求导 $\frac{d}{dz}\frac{e^z}{z-1}=\frac{e^z(z-2)}{(z-1)^2}$，代入 $z=0$ 得 $\frac{1\cdot(-2)}{1}=-2$，故 $\operatorname{Res}(f,0)=-2$。（验算：$|z|<1$ 时 $e^z=1+z+\frac{z^2}{2}+\cdots$，$\frac{1}{z-1}=-(1+z+z^2+\cdots)$，乘积中 $z$ 的一次项系数为 $-2$，留数 $=-2$，一致。）
-
-## 模块速查：复分析：辐角原理与 Rouché 定理
-- 检索词：辐角原理 argument principle 对数导数 logarithmic derivative Rouché 定理 Rouche theorem 零点计数 zero counting zeros poles
-- 核心内容：辐角原理：设 $f$ 在简单闭围道 $C$ 及其内部亚纯、在 $C$ 上无零点无极点，则 $\frac{1}{2\pi i}\oint_C\frac{f'(z)}{f(z)}\,dz=N-P$，其中 $N$、$P$ 分别为 $f$ 在 $C$ 内零点、极点的个数（均计重数）；等价地 $\Delta_C\arg f(z)=2\pi(N-P)$。Rouché 定理：设 $f,g$ 在 $C$ 及其内部解析，且在 $C$ 上 $|f(z)|>|g(z)|$，则 $f$ 与 $f+g$ 在 $C$ 内有相同个数的零点（计重数）。
-- 解题路线：① 把方程 $h(z)=0$ 拆成 $f(z)+g(z)=0$；② 在边界 $C$ 上比较模，选取占优项 $f$（模最大），验证 $|f|>|g|$ 严格成立；③ 由 Rouché 定理，$h$ 的零点数 $=$ 占优项 $f$ 的零点数；④ 直接数 $f$ 的零点（通常为 $cz^n$ 或简单多项式，零点数易数）。
-- 易错点：Rouché 要求边界上严格 $|f|>|g|$，而非 $\ge$；零点、极点都要计重数；辐角原理中 $f$ 在 $C$ 上不能有零点或极点（否则对数导数无定义）；占优项选取要保证其余项之和在边界上确实小于占优项。
-- 分步收尾：求 $h(z)=z^4-5z+1$ 在 $|z|<1$ 内零点个数。在 $|z|=1$ 上取 $f(z)=-5z$，$g(z)=z^4+1$，则 $h=f+g$。此时 $|f|=5$，$|g|=|z^4+1|\le|z^4|+1=2<5=|f|$，Rouché 条件满足。故 $h$ 与 $-5z$ 在 $|z|<1$ 内零点数相同。$-5z$ 在 $|z|<1$ 内仅有 $z=0$ 一个（一重）零点，故 $h(z)$ 在 $|z|<1$ 内恰有 $1$ 个零点。
