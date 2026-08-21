@@ -23,7 +23,7 @@ def _compact(value: str) -> str:
     return re.sub(r"[\s{}()\[\]\\,，。；;：:_]", "", str(value or "").lower()).replace("−", "-")
 
 
-def assess_answer(answer: str, problem: str, question_mode: str) -> dict:
+def assess_answer(answer: str, problem: str, question_mode: str, tool_answer: str = "") -> dict:
     """评估单个候选答案，返回打分详情。"""
     value = (answer or "").strip()
     score = 0
@@ -57,15 +57,36 @@ def assess_answer(answer: str, problem: str, question_mode: str) -> dict:
         score -= 8
         reasons.extend(f"缺:{t}" for t in missing_terms + missing_reqs + missing_comp)
 
-    # 4. 形状合法（判断/填空/选择题的答案形状）
+    # 4. 形状合法（answer_frame 句子类校验 + 判断/选择/填空）
     shape_valid = True
-    if question_mode == "true_false" and not re.search(r"正确|错误|是|否|成立|不成立", value):
+    frame = spec.answer_frame
+    kind = spec.question_kind
+    if frame == "sentence":
+        if kind == "count" and not re.search(r"个|种|项|条", value):
+            shape_valid = False
+            reasons.append("计数题缺单位(个/种/项)")
+        elif kind == "probability" and "概率" not in value:
+            shape_valid = False
+            reasons.append("概率题缺'概率'")
+        elif kind == "truth" and not re.search(r"是|否|正确|错误|成立|不成立|收敛|发散", value):
+            shape_valid = False
+            reasons.append("判断题无明确判断")
+        elif kind == "age" and "岁" not in value:
+            shape_valid = False
+            reasons.append("年龄题缺'岁'")
+    elif question_mode == "true_false" and not re.search(r"正确|错误|是|否", value):
         shape_valid = False
         reasons.append("判断题无明确判断")
     if shape_valid:
         score += 4
     else:
         score -= 4
+
+    # 5. 工具一致（与 SymPy 计算一致，确定性结果加分）
+    if tool_answer:
+        tool_compact = _compact(tool_answer)
+        if tool_compact and tool_compact in _compact(value):
+            score += 4
 
     return {"answer": value, "score": score, "complete": complete,
             "shape_valid": shape_valid, "format_valid": format_valid,
@@ -79,13 +100,6 @@ def choose_best(assessments: list, tool_answer: str = "") -> str:
         usable = assessments
     if not usable:
         return ""
-
-    # 工具答案一致性加分（SymPy 确定性结果优先）
-    if tool_answer:
-        tool_compact = _compact(tool_answer)
-        for a in usable:
-            if tool_compact and tool_compact in _compact(a["answer"]):
-                a["score"] += 4
 
     best = max(usable, key=lambda a: (
         a["complete"], a["score"], a["format_valid"], a["shape_valid"],

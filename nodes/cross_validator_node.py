@@ -29,13 +29,15 @@ def _preferred_answer(state: dict, is_match: bool, problem_type: str) -> str:
     # 打分选择：完整性 + 形状 + 格式 + 工具一致
     from utils.candidate_scorer import assess_answer, choose_best
     question_mode = state.get("question_mode", "computation")
+    tool_answer = python_answer if po.get("success") else ""
     assessments = []
     for ans in (reasoning_answer, python_answer):
         if ans:
-            assessments.append(assess_answer(ans, state.get("problem", ""), question_mode))
+            assessments.append(assess_answer(
+                ans, state.get("problem", ""), question_mode, tool_answer=tool_answer))
     if not assessments:
         return reasoning_answer or python_answer
-    return choose_best(assessments, tool_answer=python_answer if po.get("success") else "")
+    return choose_best(assessments)
 
 
 def cross_validator_node(state: dict, config) -> dict:

@@ -157,7 +157,7 @@ def _answer_frame(text: str) -> Tuple[str, str]:
     """答案框架：sentence（句子类，需主语/单位）或 math（数学式）。"""
     if re.search(r"证明|prove|show|explain|推导", text, re.IGNORECASE):
         return "proof", "proof"
-    if re.search(r"概率.*(?:多少|几)|probability", text, re.IGNORECASE):
+    if re.search(r"(?:求|计算|问).*概率|概率.*(?:是多少|为|等于|多少|几)|(?:多少|几).*概率|probability", text, re.IGNORECASE):
         return "sentence", "probability"
     if re.search(r"是否|是不是|能否|可否|whether", text, re.IGNORECASE):
         return "sentence", "truth"
