@@ -17,27 +17,25 @@ def _clean(answer: str) -> str:
 
 
 def _preferred_answer(state: dict, is_match: bool, problem_type: str) -> str:
-    """选出 validated_answer。
-
-    证据优先：Python 确定性计算结果（sympy）优先于 LLM 散文；但 Python
-    未真正验证或答案为空时回退到推理答案。
-    """
+    """选出 validated_answer（打分选择，借鉴折叠桌 candidate_selector）。"""
     rr = state.get("reasoning_result") or {}
     po = state.get("python_output") or {}
     python_answer = _clean(po.get("answer", ""))
     reasoning_answer = _clean(rr.get("answer", ""))
-    python_ok = bool(po.get("success")) and bool(python_answer)
 
     if problem_type == "proof":
         return reasoning_answer or python_answer
 
-    # 计算题：Python 确定性成功且答案完整 → Python 优先
-    if python_ok and not is_placeholder_answer(python_answer):
-        # 两路一致：保留可读性更好的推理答案
-        if is_match and reasoning_answer:
-            return reasoning_answer
-        return python_answer
-    return reasoning_answer or python_answer
+    # 打分选择：完整性 + 形状 + 格式 + 工具一致
+    from utils.candidate_scorer import assess_answer, choose_best
+    question_mode = state.get("question_mode", "computation")
+    assessments = []
+    for ans in (reasoning_answer, python_answer):
+        if ans:
+            assessments.append(assess_answer(ans, state.get("problem", ""), question_mode))
+    if not assessments:
+        return reasoning_answer or python_answer
+    return choose_best(assessments, tool_answer=python_answer if po.get("success") else "")
 
 
 def cross_validator_node(state: dict, config) -> dict:
