@@ -35,6 +35,18 @@ def _objective_answer_shape(question_mode: str) -> str:
     return "列出全部正确选项字母"
 
 
+_knowledge_cards_cache = None
+
+
+def _get_knowledge_cards():
+    """知识卡片检索器（模块级缓存，避免每题重复加载 31 个 txt）。"""
+    global _knowledge_cards_cache
+    if _knowledge_cards_cache is None:
+        from utils.knowledge_cards import KnowledgeCards
+        _knowledge_cards_cache = KnowledgeCards()
+    return _knowledge_cards_cache
+
+
 def reasoning_agent_node(state: dict, config) -> dict:
     deps = get_deps(config)
     client = deps.client
@@ -92,42 +104,88 @@ def reasoning_agent_node(state: dict, config) -> dict:
             "reasoning_attempts": attempts,
         }
 
-    # ── 计算/证明题四章节 ──
+    # ── 计算/证明题四章节（hard 题多候选 + 共识选择）──
     skill_doc = _skill_doc(deps, category)
-    prompt = REASONING_PROMPT.format(
-        category=category, skill_document=skill_doc[:3000], problem=problem)
+    from utils.skill_excerpt import select_skill_excerpt
+    skill_excerpt = select_skill_excerpt(skill_doc, problem, 3000)
+    # 知识卡片（方法+检查清单+领域知识，缓存避免重复加载）
+    cards = _get_knowledge_cards().retrieve(problem, category)
+    skill_context = skill_excerpt + ("\n\n知识卡片（解题要点）：\n" + cards if cards else "")
+    base_prompt = REASONING_PROMPT.format(
+        category=category, skill_document=skill_context, problem=problem)
     if hint:
-        prompt += f"\n\n[复核提示] {hint}"
+        base_prompt += f"\n\n[复核提示] {hint}"
 
-    max_attempts = 1 if (deps.time_budget and deps.time_budget.fast_path()) else CONFIG["llm_max_retries"]
+    difficulty = state.get("difficulty", "medium")
     reasoning_tokens = CONFIG["reasoning_tokens_by_difficulty"].get(
-        state.get("difficulty", "medium"), CONFIG["max_tokens"]["reasoning"])
+        difficulty, CONFIG["max_tokens"]["reasoning"])
 
-    parsed = {"analysis": "", "steps": [], "answer": "", "validation_points": []}
-    for _ in range(max_attempts):
+    # hard 题生成 3 候选（温度梯度），easy/medium 单候选
+    candidate_count = 3 if difficulty == "hard" else 1
+    temperatures = [0.2, 0.5, 0.8] if candidate_count > 1 else [CONFIG["temperatures"]["reasoning"]]
+
+    candidates = []
+    trace = []
+    attempts = 0
+    for cid in range(candidate_count):
         attempts += 1
         try:
             response = chat_with_retry(
-                client, messages=[{"role": "user", "content": prompt}],
-                temperature=CONFIG["temperatures"]["reasoning"],
+                client, messages=[{"role": "user", "content": base_prompt}],
+                temperature=temperatures[cid] if cid < len(temperatures) else 0.5,
                 max_tokens=reasoning_tokens,
                 logger=deps.logger, time_budget=deps.time_budget,
-                label="reasoning", thinking_mode=thinking_mode_flag(),
+                label=f"reasoning_{cid}", thinking_mode=thinking_mode_flag(),
             )
         except Exception as exc:  # noqa: BLE001
             trace.append({"attempt": attempts, "status": "failed", "error": str(exc)[:200]})
             break
         parsed = parse_reasoning_output(response)
         if parsed.get("answer") and parsed.get("steps"):
-            break
-        # 格式缺失时带格式提醒重试一次
-        prompt = (REASONING_PROMPT.format(
-            category=category, skill_document=skill_doc[:3000], problem=problem)
-            + "\n\n注意：上一次输出缺少必需章节。请严格按四章节格式重新输出。")
+            candidates.append(parsed)
+        elif parsed.get("answer"):
+            # 有答案但缺步骤：保留答案（可能格式不完整）
+            candidates.append(parsed)
+
+    # 共识选择：多候选时按答案等价找多数
+    parsed = _select_consensus(candidates)
+    if not candidates:
+        parsed = {"analysis": "", "steps": [], "answer": "", "validation_points": []}
 
     return {
         "reasoning_result": parsed,
-        "reasoning_raw_response": response,
+        "reasoning_raw_response": candidates[0].get("answer", "") if candidates else "",
         "reasoning_trace": trace,
         "reasoning_attempts": attempts,
     }
+
+
+def _select_consensus(candidates):
+    """多候选按答案等价找多数共识，返回票数最高的候选。"""
+    if not candidates:
+        return {"analysis": "", "steps": [], "answer": "", "validation_points": []}
+    if len(candidates) == 1:
+        return candidates[0]
+    from utils.answer_matcher import match_computation
+
+    groups = []  # [(代表答案, [候选...])]
+    for c in candidates:
+        ans = c.get("answer", "")
+        if not ans:
+            continue
+        matched = False
+        for rep, group in groups:
+            is_match, conf, _, _ = match_computation(rep, ans)
+            if is_match and conf >= 0.8:
+                group.append(c)
+                matched = True
+                break
+        if not matched:
+            groups.append((ans, [c]))
+    if not groups:
+        return candidates[0]
+    # 选票数最多、且答案最完整（含步骤）的组
+    best = max(groups, key=lambda g: (len(g[1]), any(c.get("steps") for c in g[1])))
+    best_candidates = best[1]
+    # 组内选步骤最完整的
+    return max(best_candidates, key=lambda c: len(c.get("steps", [])))

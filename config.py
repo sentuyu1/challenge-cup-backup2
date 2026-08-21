@@ -77,7 +77,7 @@ CONFIG = {
     "max_llm_calls_per_problem": 24,
 
     # ── 机制开关 ──
-    "enable_thinking_mode_off": True,   # 关 CoT（实测关 CoT 反而更好）
+    "enable_thinking_mode_off": True,   # 关 CoT（节省时间+token，简单题无正确率差异）
     "enable_diverse_reasoning": True,   # 异构双方法推理
     "enable_critic": True,              # 过程审计
     "enable_playoff": True,             # 确定性复算裁决

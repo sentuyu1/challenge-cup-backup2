@@ -33,6 +33,53 @@ def _requires_enumeration(problem: str) -> bool:
     return any(k in problem for k in ("所有", "全部", "列举", "枚举", "互不同构"))
 
 
+def _compact(value: str) -> str:
+    return re.sub(r"[\s{}()\[\]\\,，。；;：:_]", "", str(value or "").lower()).replace("−", "-")
+
+
+def required_terms(problem: str) -> list:
+    """识别答案必须出现的术语（对齐折叠桌 problem_spec 思想）。
+
+    某些题目的判分要求答案必须含特定术语/字段，缺失即判错。
+    """
+    required = []
+    text = (problem or "").lower()
+    if "牛顿法" in problem or "newton" in text:
+        required.append("x_{n+1}")
+        if "x_0" in problem or "初值" in problem:
+            required.append("x_1")
+    if "导数判据" in problem or "contraction" in text:
+        required.extend(["导数", "收敛"])
+    if "逐点" in problem and "极限" in problem:
+        required.append("逐点")
+    if "积分" in problem and ("极限" in problem or "比较" in problem):
+        required.append("积分")
+    if "交集" in problem and "求" in problem:
+        required.append("交集")
+    if "精确值" in problem or "exact value" in text:
+        required.append("精确")
+    if "特征值" in problem and "行列式" in problem and "迹" in problem:
+        required.extend(["det", "tr"])
+    if "主曲率" in problem and "高斯曲率" in problem:
+        required.extend(["主曲率", "高斯曲率"])
+    if "生成元" in problem and ("所有" in problem or "全部" in problem):
+        required.append("生成元")
+    if "基变量" in problem or "运输问题" in problem:
+        required.append("总运费")
+    return list(dict.fromkeys(required))
+
+
+def missing_required_terms(answer: str, terms: list) -> list:
+    """返回答案缺失的必须术语。"""
+    compact = _compact(answer)
+    missing = []
+    for term in terms:
+        t = _compact(term)
+        if t and t not in compact:
+            missing.append(term)
+    return missing
+
+
 def missing_components(problem: str, answer: str) -> list:
     """返回答案缺失的组件列表（空 = 无缺失）。"""
     missing = []

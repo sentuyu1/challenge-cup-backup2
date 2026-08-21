@@ -97,10 +97,15 @@ def critic_node(state: dict, config) -> dict:
     if conflict and verdict == "pass":
         verdict = "calc_error"
 
-    # 确定性契约检查（多问漏答/置信区间/假设检验/枚举，零成本）
-    from utils.answer_contract import missing_components
-    deterministic_missing = missing_components(
-        str(state.get("problem", "")), answer)
+    # 确定性契约检查（多问漏答/置信区间/假设检验/枚举 + 必须术语，零成本）
+    from utils.answer_contract import missing_components, missing_required_terms, required_terms
+    problem = str(state.get("problem", ""))
+    deterministic_missing = missing_components(problem, answer)
+    # 必须术语缺失（如牛顿法题必须含 x_{n+1}）也是判分硬伤
+    req_terms = required_terms(problem)
+    missing_terms = missing_required_terms(answer, req_terms)
+    if missing_terms:
+        deterministic_missing.extend(f"缺必须术语 {t}" for t in missing_terms)
     if deterministic_missing and verdict == "pass":
         verdict = "incomplete"
         llm_verdict["missing"] = list(deterministic_missing)
