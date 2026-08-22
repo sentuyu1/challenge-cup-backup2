@@ -37,7 +37,7 @@ CONFIG = {
         "coordinator": 16384,
         "emergency_answer": 1280,
     },
-    "reasoning_tokens_by_difficulty": {"easy": 8192, "medium": 12288, "hard": 16384},
+    "reasoning_tokens_by_difficulty": {"easy": 4096, "medium": 5120, "hard": 6144},
 
     # ── 节点超时上限（秒，最后防线，真实边界由 TimeBudget 收紧）──
     "node_timeouts": {
@@ -60,14 +60,13 @@ CONFIG = {
     "classifier_confidence_threshold": 0.85,
 
     # ── 墙钟预算（单题）──
-    # 平台硬限 20 分钟；reserve 保证超时前一定能输出答案而非被强杀。
-    "problem_time_budget_s": 1200,
-    "time_reserve_s": 300,
-    "time_fast_path_threshold_s": 300,
+    # 平台硬限 20 分钟；软预算控制单题耗时（折叠桌 115 秒，我们留 300 秒余量）。
+    "problem_time_budget_s": 300,
+    "time_reserve_s": 60,
+    "time_fast_path_threshold_s": 120,
 
     # ── 难度感知软预算（可选阶段的购买力，不杀进行中调用）──
-    # 全卷 112 题 / 并发 3 / 6h 上限 ⇒ 平均每题约 9.6min。
-    "difficulty_soft_budgets": {"easy": 600, "medium": 840, "hard": 1200},
+    "difficulty_soft_budgets": {"easy": 180, "medium": 240, "hard": 300},
 
     # ── 全卷完成率（PaperPacer）──
     # 6h 内完成 112 题：目标 5h 完成留 1h 余量。

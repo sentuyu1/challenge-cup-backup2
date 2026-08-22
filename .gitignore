@@ -19,3 +19,4 @@ ground_truth.json
 eval_result.json
 test_cot.py
 eval_112.py
+test_calc.py

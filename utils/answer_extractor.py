@@ -215,9 +215,14 @@ def parse_reasoning_output(response: str) -> dict:
                 "description": sm.group(2).strip(),
             })
 
-    m = re.search(r"##\s*最终答案\s*(.*?)(?=##|$)", response, re.DOTALL)
-    if m:
+    # 【最终答案】标记（折叠桌式第一行强约束），优先于 ## 最终答案 章节
+    m = re.search(r"【\s*最终答案\s*】\s*[:：]?\s*(.+?)(?=\n\s*\n|\n\s*【|\Z)", response, re.DOTALL)
+    if m and m.group(1).strip():
         result["answer"] = _distill_answer(m.group(1))
+    else:
+        m = re.search(r"##\s*最终答案\s*(.*?)(?=##|$)", response, re.DOTALL)
+        if m:
+            result["answer"] = _distill_answer(m.group(1))
 
     m = re.search(r"##\s*关键验证点\s*(.*?)(?=##|$)", response, re.DOTALL)
     if m:
