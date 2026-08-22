@@ -12,3 +12,10 @@ out/
 
 # 环境
 .env
+
+# 评测数据（标准答案，不提交）
+eval_112.json
+ground_truth.json
+eval_result.json
+test_cot.py
+eval_112.py
