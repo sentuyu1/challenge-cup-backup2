@@ -104,7 +104,7 @@ def reasoning_agent_node(state: dict, config) -> dict:
             "reasoning_attempts": attempts,
         }
 
-    # ── 计算/证明题四章节（hard 题多候选 + 共识选择）──
+    # ── 计算/证明题：单轮深度思考（开 CoT），验证交给确定性验证 ──
     skill_doc = _skill_doc(deps, category)
     from utils.skill_excerpt import select_skill_excerpt
     skill_excerpt = select_skill_excerpt(skill_doc, problem, 3000)
@@ -120,41 +120,24 @@ def reasoning_agent_node(state: dict, config) -> dict:
     reasoning_tokens = CONFIG["reasoning_tokens_by_difficulty"].get(
         difficulty, CONFIG["max_tokens"]["reasoning"])
 
-    # hard 题生成 3 候选（温度梯度），easy/medium 单候选
-    candidate_count = 3 if difficulty == "hard" else 1
-    temperatures = [0.2, 0.5, 0.8] if candidate_count > 1 else [CONFIG["temperatures"]["reasoning"]]
-
-    candidates = []
     trace = []
-    attempts = 0
-    for cid in range(candidate_count):
-        attempts += 1
-        try:
-            response = chat_with_retry(
-                client, messages=[{"role": "user", "content": base_prompt}],
-                temperature=temperatures[cid] if cid < len(temperatures) else 0.5,
-                max_tokens=reasoning_tokens,
-                logger=deps.logger, time_budget=deps.time_budget,
-                label=f"reasoning_{cid}", thinking_mode=thinking_mode_flag(),
-            )
-        except Exception as exc:  # noqa: BLE001
-            trace.append({"attempt": attempts, "status": "failed", "error": str(exc)[:200]})
-            break
-        parsed = parse_reasoning_output(response)
-        if parsed.get("answer") and parsed.get("steps"):
-            candidates.append(parsed)
-        elif parsed.get("answer"):
-            # 有答案但缺步骤：保留答案（可能格式不完整）
-            candidates.append(parsed)
-
-    # 共识选择：多候选时按答案等价找多数
-    parsed = _select_consensus(candidates)
-    if not candidates:
-        parsed = {"analysis": "", "steps": [], "answer": "", "validation_points": []}
+    attempts = 1
+    response = ""
+    try:
+        response = chat_with_retry(
+            client, messages=[{"role": "user", "content": base_prompt}],
+            temperature=CONFIG["temperatures"]["reasoning"],
+            max_tokens=reasoning_tokens,
+            logger=deps.logger, time_budget=deps.time_budget,
+            label="reasoning", thinking_mode=thinking_mode_flag(),
+        )
+    except Exception as exc:  # noqa: BLE001
+        trace.append({"attempt": attempts, "status": "failed", "error": str(exc)[:200]})
+    parsed = parse_reasoning_output(response)
 
     return {
         "reasoning_result": parsed,
-        "reasoning_raw_response": candidates[0].get("answer", "") if candidates else "",
+        "reasoning_raw_response": response,
         "reasoning_trace": trace,
         "reasoning_attempts": attempts,
     }

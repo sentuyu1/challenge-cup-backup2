@@ -197,6 +197,9 @@ def sympy_equivalent(a1: str, a2: str, tolerance: float = 1e-6, simplify_timeout
     e1, e2 = _try_parse_expr(a1), _try_parse_expr(a2)
     if e1 is None or e2 is None:
         return None
+    # 多值答案（如 "2026, 2030"）会被 parse_expr 解析成 tuple，跳过符号等价
+    if not (hasattr(e1, "free_symbols") and hasattr(e2, "free_symbols")):
+        return None
 
     # 矩阵
     is_m1, is_m2 = isinstance(e1, sp.MatrixBase), isinstance(e2, sp.MatrixBase)
