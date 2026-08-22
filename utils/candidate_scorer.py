@@ -57,23 +57,20 @@ def assess_answer(answer: str, problem: str, question_mode: str, tool_answer: st
         score -= 8
         reasons.extend(f"缺:{t}" for t in missing_terms + missing_reqs + missing_comp)
 
-    # 4. 形状合法（answer_frame 句子类校验 + 判断/选择/填空）
+    # 4. 形状合法（判断题硬性校验；计数/概率/年龄的单位只做软提示，不排除候选）
     shape_valid = True
     frame = spec.answer_frame
     kind = spec.question_kind
     if frame == "sentence":
-        if kind == "count" and not re.search(r"个|种|项|条", value):
-            shape_valid = False
-            reasons.append("计数题缺单位(个/种/项)")
-        elif kind == "probability" and "概率" not in value:
-            shape_valid = False
-            reasons.append("概率题缺'概率'")
-        elif kind == "truth" and not re.search(r"是|否|正确|错误|成立|不成立|收敛|发散", value):
+        if kind == "truth" and not re.search(r"是|否|正确|错误|成立|不成立|收敛|发散", value):
+            # 判断题必须有明确判断词（判分硬性要求）
             shape_valid = False
             reasons.append("判断题无明确判断")
-        elif kind == "age" and "岁" not in value:
-            shape_valid = False
-            reasons.append("年龄题缺'岁'")
+        elif kind == "count" and re.search(r"共|有|答案", value) and not re.search(r"个|种|项|条", value):
+            # 仅当答案写成句子却漏了单位时才提示，纯数字不扣
+            reasons.append("计数句缺单位")
+        elif kind == "probability" and re.search(r"概率|probability", value) and "概率" not in value:
+            reasons.append("概率句缺'概率'")
     elif question_mode == "true_false" and not re.search(r"正确|错误|是|否", value):
         shape_valid = False
         reasons.append("判断题无明确判断")
