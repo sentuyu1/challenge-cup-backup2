@@ -55,6 +55,13 @@ def coordinator_node(state: dict, config) -> dict:
             return {"final_response": validated_answer, "coordination_detail": ""}
         validated_answer = "无法确定答案"
 
+    # answer_frame 渲染（裸数值 → 完整句子，折叠桌判分保护）
+    from utils.problem_spec import build_problem_spec
+    from utils.answer_render import render_answer
+    spec = build_problem_spec(problem)
+    if getattr(spec, "answer_frame", "math") == "sentence":
+        validated_answer = render_answer(validated_answer, spec.question_kind)
+
     # 无答案：应急直答
     if not validated_answer or is_placeholder_answer(validated_answer):
         try:

@@ -71,6 +71,28 @@ def _build_goal_context(spec) -> str:
     return "\n".join(rendered) if rendered else "- 直接求解并给出完整结论"
 
 
+def _decompose(problem, client, deps, trace, attempt_no):
+    """hard 题拆子目标（折叠桌 decomposer 简化版）。"""
+    prompt = (
+        "你是数学解题规划者。把下面这道难题拆成 3-5 个可独立求解的子步骤，"
+        "每个子步骤是一个可验证的计算或推导。\n\n"
+        f"题目：\n{problem}\n\n"
+        "输出（每行一个步骤，编号）：\n1. <子步骤1>\n2. <子步骤2>\n..."
+    )
+    try:
+        resp = chat_with_retry(
+            client, messages=[{"role": "user", "content": prompt}],
+            temperature=0.0, max_tokens=1024,
+            logger=deps.logger, time_budget=deps.time_budget,
+            label="decompose", thinking_mode=thinking_mode_flag(),
+        )
+        steps = re.findall(r"^\s*\d+[.、:：]\s*(.+)$", resp, re.MULTILINE)
+        return steps[:5]
+    except Exception as exc:  # noqa: BLE001
+        trace.append({"attempt": attempt_no, "status": "decompose_failed", "error": str(exc)[:200]})
+        return []
+
+
 def reasoning_agent_node(state: dict, config) -> dict:
     deps = get_deps(config)
     client = deps.client
@@ -146,6 +168,13 @@ def reasoning_agent_node(state: dict, config) -> dict:
     reasoning_tokens = CONFIG["reasoning_tokens_by_difficulty"].get(
         difficulty, CONFIG["max_tokens"]["reasoning"])
 
+    # decomposer：hard 题先拆子目标（折叠桌 decomposer 简化版）
+    if difficulty == "hard":
+        steps = _decompose(problem, client, deps, trace, attempts)
+        if steps:
+            base_prompt += "\n\n建议按以下子步骤求解：\n" + "\n".join(
+                f"{i + 1}. {s}" for i, s in enumerate(steps))
+
     # 多候选（hard 3 候选，温度梯度增加多样性）
     candidate_count = 3 if difficulty == "hard" else 1
     temperatures = [0.2, 0.35, 0.5] if candidate_count > 1 else [CONFIG["temperatures"]["reasoning"]]
@@ -204,8 +233,10 @@ def _verify_select(problem, candidates, sympy_hints, goal_context, client, deps,
     if hint_text:
         verify_prompt += f"\n本地计算证据：\n{hint_text}\n"
     verify_prompt += (
-        "\n请独立重新计算，检查候选是否正确完整，补全所有对象/数值/结论。只输出一行：\n"
-        "FINAL: <完整正确答案>"
+        "\n请独立重新计算，检查候选是否正确完整。输出三行：\n"
+        "CHOICE: <最接近正确的候选编号，从 1 开始>\n"
+        "FINAL: <完整正确答案，自行补全所有对象/数值/结论>\n"
+        "REASON: <不超过20字的理由>"
     )
     try:
         verify_response = chat_with_retry(
