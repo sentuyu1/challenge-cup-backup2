@@ -105,7 +105,8 @@ def _requirements(text: str) -> List[Requirement]:
     if re.search(r"牛顿法|newton", text, re.IGNORECASE):
         reqs.append(Requirement("iteration_formula", r"x\s*_\s*\{?n\+1|迭代公式"))
     if re.search(r"(?:计算|求).*积分|integral", text, re.IGNORECASE):
-        reqs.append(Requirement("integral_value", r"积分.*(?:为|=)|∫.*=|integral.*=", strict=True))
+        # 非 strict：积分题答案常直接给数值/表达式，不强制含"积分"字眼
+        reqs.append(Requirement("integral_value", r"积分.*(?:为|=)|∫.*=|integral.*="))
     if re.search(r"交集|intersection", text, re.IGNORECASE):
         reqs.append(Requirement("intersection", r"交集|intersection|∩"))
     if re.search(r"置信区间|区间估计|预测区间", text):
